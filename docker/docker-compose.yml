@@ -1,0 +1,16 @@
+services:
+  esic-camarafranciscomorato:
+    container_name: esic-camarafranciscomorato
+    build: ../.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:8080
+    env_file:
+      - ./environments/.esic-camarafranciscomorato.env
+    volumes:
+      - ./volumes/esic-camarafranciscomorato:/data
+
+volumes:
+  esic-camarafranciscomorato-data:
+    

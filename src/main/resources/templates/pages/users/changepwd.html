@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Redefinição de senha - Sistema de atendimento ao cidadão" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="/assets/css/libs.bundle.css" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/assets/css/theme.bundle.css" />
+
+    <script src="/assets/js/color.mode.js"></script>
+
+    <!-- Title -->
+    <title>Redefinir Senha - e-SIC</title>
+
+    <style>
+        .btn {
+            border-radius: 18px !important;
+        }
+    </style>
+
+</head>
+
+<body class="d-flex align-items-center">
+    <div class="container">
+        <div class="card p-3 shadow-sm">
+            <div class="row justify-content-center">
+                <div class="col-sm-6">
+                    <div class="text-center">
+                        <img src="/assets/img/backgrounds/Password-Reset-color-800px.png" class="img-fluid"
+                            style="max-width: 350px;" />
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 col-md-6" style="max-width: 25rem;">
+                    <!-- Heading -->
+                    <h1 class="fs-1 text-center mt-3">
+                        <img src="/assets/img/logos/esic_logo.png" class="img-fluid" width="50"
+                            style="vertical-align: text-top;" />
+                        e-SIC
+                    </h1>
+
+                    <!-- Subheading -->
+                    <p class="lead text-center text-body-secondary">
+                        Digite sua nova senha para redefinição.
+                    </p>
+
+                    <!-- Form -->
+                    <form class="mb-3 mt-3 needs-validation" method="POST" action="/users/changepwd" novalidate>
+                        <div class="mb-4">
+                            <label class="visually-hidden" for="new-password">Nova Senha</label>
+                            <input class="form-control" id="new-password" type="password" name="password"
+                                placeholder="Nova Senha" required th:classappend="${param.error != null ? 'is-invalid': ''}" />
+                            <div class="invalid-feedback" th:if="${param.error == null}">
+                                A senha é obrigatória.
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="visually-hidden" for="confirm-password">Confirmar Senha</label>
+                            <input class="form-control" id="confirm-password" type="password" name="confirmPassword"
+                                placeholder="Confirmar Senha" required th:classappend="${param.error != null ? 'is-invalid': ''}" />
+                            <div class="invalid-feedback" th:if="${param.error == null}">
+                                A confirmação de senha é obrigatória.
+                            </div>
+                            <div class="invalid-feedback" th:if="${param.error}" th:text="${error}"></div>
+                        </div>
+                        <button class="btn btn-secondary w-100" id="btn-submit" type="submit">Redefinir Senha</button>
+                    </form>
+
+                    <a class="btn btn-outline-secondary w-100 rounded-3" href="/acesso">Voltar ao Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <script src="/assets/js/vendor.bundle.js"></script>
+    <script src="/assets/js/theme.bundle.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<div class="offcanvas offcanvas-end offcanvas-custom shadow" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    id="offcanvas-response" aria-labelledby="offcanvas-response" style="min-width: 50%; z-index: 9999;" >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Adicionar resposta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form class="row g-3" th:object="${response}" method="POST" enctype="multipart/form-data" th:action="${'/requests/' + request.id + '/response'}">
+            <div class="form-floating col-12">
+                <textarea class="form-control" id="description" name="description" placeholder="Descrição" th:field="*{description}"></textarea>
+            </div>
+
+            <div class="col-12">
+                <label for="attachments" class="form-label">Anexos</label>
+                <input class="form-control" type="file" id="attachments" name="files" multiple>
+            </div>
+        
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+        
+    </div>
+</div>

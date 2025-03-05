@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Novo Tipo de Solicitação')}">
+
+<body>
+    <content>
+        <div class="container">
+            <!-- Page header -->
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                            <path
+                                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Novo Tipo de Solicitação</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Tipos de solicitação</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <form action="/request-types/new" th:object="${requestType}"  method="post" novalidate>
+                    <!-- Nome -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Digite o nome"
+                            required minlength="3">
+                        <label for="title">Título da solicitação</label>
+                        <div class="invalid-feedback">
+                            Por favor, informe um nome com no mínimo 3 caracteres.
+                        </div>
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="description" name="description"
+                            placeholder="Digite a descrição" required>
+                        <label for="description">Descrição</label>
+                        <div class="invalid-feedback">
+                            Por favor, informe uma descrição.
+                        </div>
+                    </div>
+
+                    <!-- Departamento -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="department" name="department.id" required>
+                            <option value="" disabled selected>Selecione uma opção</option>
+                            <option th:each="department : ${departments}" th:value="${department.id}"
+                                th:text="${department.name}"></option>
+                        </select>
+                        <label for="department">Departamento</label>
+                        <div class="invalid-feedback">
+                            Por favor, selecione um departamento.
+                        </div>
+                    </div>
+
+                    <!-- Prazo de resposta -->
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="timeLimit" name="timeLimit"
+                            placeholder="Prazo de resposta" min="1" max="180" required>
+                        <label for="timeLimit">Prazo de resposta (em dias corridos)</label>
+                        <div class="invalid-feedback">
+                            Por favor, informe o prazo de resposta.
+                        </div>
+                    </div>
+
+                    <!-- Ativo -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="active" name="active" required>
+                            <option value="true" selected>Sim</option>
+                            <option value="false">Não</option>
+                        </select>
+                        <label for="active">Ativo</label>
+                        <div class="invalid-feedback">
+                            Por favor, selecione uma opção.
+                        </div>
+                    </div>
+
+                    <!-- Botão Salvar alinhado à direita -->
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary" type="submit">Salvar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </content>
+</body>
+
+</html>

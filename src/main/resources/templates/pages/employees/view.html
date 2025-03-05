@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Perfil de ' + ${employee.name})}">
+
+<body>
+    <content>
+
+        <div class="container">
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Funcionários</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">[[${employee.name}]]</h1>
+                    <p class="text-secondary p-2"><i class="bi bi-person-circle"></i> [[${employee.user.username}]]</p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <form class="row g-3" th:object="${employee}" method="POST" action="/employees/update">
+
+                    <input type="hidden" name="id" th:field="*{id}">
+
+                    <!-- Seção: Dados do Funcionário -->
+                    <h4 class="mb-3">Dados do Funcionário</h4>
+
+                    <!-- Primeira linha: Nome e Matrícula -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nome"
+                                th:field="*{name}" required>
+                            <label for="name">Nome do Funcionário</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="employeeId" name="employeeId"
+                                placeholder="ID do Funcionário" th:field="*{employeeId}" required>
+                            <label for="employeeId">Matrícula (ID do Funcionário)</label>
+                        </div>
+                    </div>
+
+                    <!-- Segunda linha: CPF e Departamento -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF"
+                                th:field="*{cpf}" oninput="maskCPF(this)" required>
+                            <label for="cpf">CPF</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="department" name="department" th:field="*{department}"
+                                required>
+                                <option value="" selected disabled>Selecione um departamento</option>
+                                <option th:each="department : ${departments}" th:value="${department.id}"
+                                    th:text="${department.name}">
+                                </option>
+                            </select>
+                            <label for="department">Departamento</label>
+                        </div>
+                    </div>
+
+                    <hr class="mt-4 mb-4">
+
+                    <!-- Botão de envio -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button th:if="${employee.user.enabled}" type="button"
+                            th:data-username="${employee.user.username}"
+                            onclick="activeInactiveEmployee(this.dataset.username, 'inactive')"
+                            class="btn btn-outline-danger px-4">Desativar funcionário</button>
+                        <button th:if="${employee.user.enabled == false}" type="button"
+                            th:data-username="${employee.user.username}"
+                            onclick="activeInactiveEmployee(this.dataset.username, 'active')"
+                            class="btn btn-outline-success px-4">Ativar funcionário</button>
+                        <button type="submit" class="btn btn-primary px-4">Salvar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function activeInactiveEmployee(id, option) {
+                Swal.fire({
+                    title: "Tem certeza?",
+                    text: `Essa ação ${option === "active" ? "ativará" : "desativará"} o funcionário!`,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: `Sim, ${option === "active" ? "ativar" : "desativar"}!`,
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/api/users/${id}/${option}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Erro ao desativar funcionário");
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                Swal.fire(`${option === "active" ? "Ativado!" : "Desativado!"}`, ` O funcionário foi ${option === "active" ? "ativado" : "desativado"} com sucesso.`, "success")
+                                    .then(() => location.reload());
+                            })
+                            .catch(error => {
+                                Swal.fire("Erro!", "Não foi possível desativar o funcionário.", "error");
+                            });
+                    }
+                });
+            }
+        </script>
+
+    </content>
+</body>
+
+</html>

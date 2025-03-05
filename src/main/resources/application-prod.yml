@@ -1,0 +1,59 @@
+spring:
+    application:
+        name: springboot-gestao-atendimentos
+        release-date: 2025-02-20
+        url: ${APPLICATION_URL}
+        file:
+            path: ${SPRING_VOLUME}
+        jwt:
+            secret-key: ${JWT_SECRET_KEY}
+        client:
+            settings:
+                title: ${TITLE}
+                name: ${NAME}
+                favicon: ${FAVICON}
+                media:
+                    instagram: ${INSTAGRAM}
+                    facebook: ${FACEBOOK}
+                    linkedin: ${LINKEDIN}
+                    site: ${SITE}
+                landing-page:
+                    header-logo: ${HEADER_LOGO}
+                    footer-logo: ${FOOTER_LOGO}
+                    phone: ${PHONE}
+                    contact: ${CONTACT}
+                    slogan: ${SLOGAN}
+    datasource:
+        url: ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    flyway:
+        enabled: true
+        locations: classpath:db/migration
+        url: ${SPRING_DATASOURCE_URL}
+        user: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        baseline-on-migrate: true
+        baseline-version: ${FLYWAY_BASELINE_VERSION}
+
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    servlet:
+      multipart:
+          max-file-size: ${MAX_FILE_SIZE:10MB}
+          max-request-size: ${MAX_FILE_REQUEST_SIZE:10MB}
+    mail:
+        host: ${SMTP_HOST}
+        port: ${SMTP_PORT}
+        username: ${SMTP_LOGIN}
+        password: ${SMTP_PASSWORD}
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true

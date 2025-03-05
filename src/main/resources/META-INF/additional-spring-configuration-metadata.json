@@ -1,0 +1,82 @@
+{"properties": [
+  {
+    "name": "spring.application.file.path",
+    "type": "java.lang.String",
+    "description": "Caminho onde os arquivos serão salvos"
+  },
+  {
+    "name": "spring.application.jwt.secret-key",
+    "type": "java.lang.String",
+    "description": "Chave de segurança para gerar JWT"
+  },
+  {
+    "name": "spring.application.release-date",
+    "type": "java.lang.String",
+    "description": "Data em que o sistema foi publicado"
+  },
+  {
+    "name": "spring.application.url",
+    "type": "java.lang.String",
+    "description": "URL do sistema quando já publicado, utilizado no link de redefinição de senha"
+  },
+  {
+    "name": "spring.application.client.settings.title",
+    "type": "java.lang.String",
+    "description": "Título da aplicação - será usado no title do html e ao lado do logo"
+  },
+  {
+    "name": "spring.application.client.settings.favicon",
+    "type": "java.lang.String",
+    "description": "caminho dos favicons"
+  },
+  {
+    "name": "spring.application.client.settings.media.instagram",
+    "type": "java.lang.String",
+    "description": "URL do instagram"
+  },
+  {
+    "name": "spring.application.client.settings.media.facebook",
+    "type": "java.lang.String",
+    "description": "URL do facebook"
+  },
+  {
+    "name": "spring.application.client.settings.media.linkedin",
+    "type": "java.lang.String",
+    "description": "URL do linkedin"
+  },
+  {
+    "name": "spring.application.client.settings.media.site",
+    "type": "java.lang.String",
+    "description": "URL do site"
+  },
+  {
+    "name": "spring.application.client.settings.landing-page.header-logo",
+    "type": "java.lang.String",
+    "description": "Caminho do logo"
+  },
+  {
+    "name": "spring.application.client.settings.landing-page.footer-logo",
+    "type": "java.lang.String",
+    "description": "Caminho do logo para footer ou rodapé"
+  },
+  {
+    "name": "spring.application.client.settings.landing-page.phone",
+    "type": "java.lang.String",
+    "description": "Telefone de contato"
+  },
+  {
+    "name": "spring.application.client.settings.landing-page.contact",
+    "type": "java.lang.String",
+    "description": "E-mail ou outro telefone"
+  },
+  {
+    "name": "spring.application.client.settings.landing-page.slogan",
+    "type": "java.lang.String",
+    "description": "Será usado abaixo do logo"
+  },
+  {
+    "name": "spring.application.client.settings.name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.application.client.settings.name'"
+  }
+]}

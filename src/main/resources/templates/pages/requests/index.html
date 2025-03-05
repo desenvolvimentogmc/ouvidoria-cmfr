@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Solicitações')}">
+
+<body>
+    <content>
+
+
+        <div class="container">
+
+
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-building-up"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Solicitações</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Solicitações</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- Filters -->
+                    <search-protocol th:replace="~{layout/search-protocol}"></search-protocol>
+
+                    <!-- Table -->
+                    <div class="card shadow p-2">
+                        <div class="table-responsive mb-7">
+                            <table class="table table-hover table-striped table-bordered mb-0" id="tbl-requests">
+                                <thead>
+                                    <tr>
+                                        <th>Protocolo</th>
+                                        <th>Solicitação</th>
+                                        <th>Descrição</th>
+                                        <th>Data</th>
+                                        <th>Situação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="request : ${requests}">
+                                        <td class="text-body-secondary">#[[${request.id}]]</td>
+                                        <td role="button" class="nav-link" th:data-id="${request.id}"
+                                            onclick="window.location.href = `/solicitacoes/${this.dataset.id}`"
+                                            data-bs-toggle="tooltip" th:data-bs-title="${'Ver solicitação de n.º ' + request.id}">
+                                            [[${request.requestType.title}]]</td>
+                                        <td>[[${request.description}]]</td>
+                                        <td>[[${#temporals.format(request.createdAt, 'dd/MM/yyyy HH:mm')}]]</td>
+                                        <td><span
+                                                class="badge bg-success-subtle text-success">[[${request?.status?.description}]]</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="fab-container">
+                <a href="/solicitacoes/nova-solicitacao" id="fab-main" class="btn btn-primary rounded-circle shadow"
+                    data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="left"
+                    data-bs-content="Cadastrar demanda">
+                    <i class="bi bi-plus"></i>
+                </a>
+            </div>
+
+
+            <script>
+                window.onload = () => {
+                    new DataTable('#tbl-requests', {
+                        responsive: true,
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+                        },
+                    })
+                }
+            </script>
+
+    </content>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Sistema de atendimento ao cidadão" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/favicon/favicon.ico" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="/assets/css/libs.bundle.css" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/assets/css/theme.bundle.css" />
+
+    <script src="/assets/js/color.mode.js"></script>
+
+    <!-- Title -->
+    <title>[[${settings.title}]] - Sistema Eletrônico de Informação ao Cidadão</title>
+
+    <style>
+        .btn {
+            border-radius: 18px !important;
+        }
+    </style>
+
+</head>
+
+<body class="d-flex align-items-center">
+    <div class="container">
+        <div class="card p-3 shadow-sm">
+            <div class="row justify-content-center">
+
+                <div class="col-sm-6">
+                    <div class="text-center">
+                        <img src="/assets/img/backgrounds/cartoon-no-results-found.svg" class="img-fluid"
+                            style="max-width: 350px;" />
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6 col-md-6" style="max-width: 25rem;">
+                    <!-- Heading -->
+                    <h1 class="fs-1 text-center mt-3">
+                        <img src="/assets/img/logos/esic_logo.png" class="img-fluid" width="50"
+                            style="vertical-align: text-top;" />
+                        [[${settings.title}]]
+                    </h1>
+
+                    <!-- Subheading -->
+                    <p class="lead text-center text-body-secondary">
+                        Entre com suas credenciais ou crie uma conta.
+                    </p>
+
+                    <!-- Form -->
+                    <form class="mb-3 mt-3 needs-validation" method="POST" action="/acesso" novalidate>
+                        <div class="mb-4">
+                            <label class="visually-hidden" for="username">E-mail</label>
+                            <input class="form-control" id="username" name="username" type="email" placeholder="E-mail"
+                                required th:classappend="${param.error} ? 'is-invalid' : ''" />
+                            <div class="invalid-feedback" th:if="${param.error == null}">
+                                E-mail inválido.
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="visually-hidden" for="password">Senha</label>
+                            <input class="form-control" id="password" type="password" name="password"
+                                placeholder="Senha" required th:classappend="${param.error} ? 'is-invalid' : ''" />
+                            <div class="invalid-feedback" th:if="${param.error == null}">
+                                Senha inválida.
+                            </div>
+                            <div class="invalid-feedback" th:if="${param.error != null}">
+                                Credenciais inválidas.
+                            </div>
+                            <!-- Text -->
+                            <p class="text-body-secondary mt-2 mb-3 mr-0" style="text-align: right;"> <a
+                                    href="javascript:void(0)" onclick="handleResetPassword()" role="button">Esqueci minha senha</a></p>
+                        </div>
+                        <button class="btn btn-secondary w-100" id="btn-submit" type="submit">Acessar o sistema</button>
+                    </form>
+
+                    <a class="btn btn-outline-secondary w-100 rounded-3" href="/acesso/novo-cadastro">Não tem conta?
+                        Crie um
+                        cadastro</a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <!-- Map JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+
+    <!-- Vendor JS -->
+    <script src="/assets/js/vendor.bundle.js"></script>
+
+    <script src="/assets/vendors/sweetalert2/sweetalert2.11.15.10.js"></script>
+
+    <!-- Theme JS -->
+    <script src="/assets/js/theme.bundle.js"></script>
+    <script src="/assets/js/sweetalert2.inits.js"></script>
+
+    <script>
+        const handleResetPassword = () => {
+            Swal.fire({
+                title: 'Redefinição de Senha',
+                text: 'Digite seu e-mail para receber um link de redefinição de senha.',
+                input: 'email',
+                inputPlaceholder: 'Digite seu e-mail',
+                showCancelButton: true,
+                confirmButtonText: 'Enviar',
+                cancelButtonText: 'Cancelar',
+                validationMessage: "E-mail inválido.",
+                preConfirm: (email) => {
+                    if (!email) {
+                        Swal.showValidationMessage('Por favor, insira um e-mail válido.');
+                    }
+                    return email;
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    showLoading("Aguarde..", "estamos processando sua solicitação.");
+                    const email = result.value;
+
+                    // Simulando envio do e-mail (substitua pela requisição real da API)
+                    const response = await fetch('/api/recovery/request-link', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+
+                    if(response.ok) {
+                        Swal.fire('Sucesso!', 'Um link de redefinição foi enviado para seu e-mail.', 'success');
+                        return ;
+                    }
+                    closeLoading();
+                    Swal.fire('Erro', 'Não foi possível enviar o e-mail. Verifique seu endereço e tente novamente.', 'error');
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

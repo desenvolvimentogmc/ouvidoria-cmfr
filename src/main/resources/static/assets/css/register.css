@@ -1,0 +1,24 @@
+@media (max-width: 576px) { /* Para telas pequenas */
+    .nav-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        border-radius: 50%;
+        text-align: center;
+    }
+
+    
+    .nav-link:not(.active) .tab-text {
+        display: none; /* Esconde o texto das abas inativas */
+    }
+
+    .nav-link.active {
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        padding: 8px 12px;
+    }
+}

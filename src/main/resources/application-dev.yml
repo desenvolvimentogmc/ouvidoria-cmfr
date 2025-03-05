@@ -1,0 +1,59 @@
+spring:
+    application:
+        name: springboot-gestao-atendimentos
+        release-date: 2025-02-20
+        url: ${APPLICATION_URL://localhost:8080}
+        file:
+            path: ${SPRING_VOLUME:/Temp/esic}
+        jwt:
+            secret-key: ${JWT_SECRET_KEY:ad1ac11289870e19cbde1db6c0f6e8e9b03004cd9e98aa336cfe97480d2af43c638e36ff46424b0211f3bcfb9bbf08f99654c171862d95e13c8a5ddd36ac859395a13661dc2ff99ee392f743cd67b9bf999a29efe1db15da51310241bcd6a17c5cf7ae3d869727e8e0a394cb36b3e3ad5fd9e8914a403e524fd9afc5f0bd041566ccead3913be49d6e130c5696a629002e78f76585a2f271631040bd89861986c2bc07cd4f2c754f519af88b17e0d699cbfe6768802d5f403b5752171dafe4091d1d96cd29207f0d3538fa18e316e41c4f82be261ebf3b9478f7fac4eb89413f92e8f99454acbb1b83aa00e07b730a5b5c64c8f3d6c50a6ada79c792e3ba50de}
+        client:
+            settings:
+                title: ${TITLE}
+                name: ${NAME}
+                favicon: ${FAVICON}
+                media:
+                    instagram: ${INSTAGRAM:https://instagram.com}
+                    facebook: ${FACEBOOK}
+                    linkedin: ${LINKEDIN}
+                    site: ${SITE}
+                landing-page:
+                    header-logo: ${HEADER_LOGO}
+                    footer-logo: ${FOOTER_LOGO}
+                    phone: ${PHONE}
+                    contact: ${CONTACT}
+                    slogan: ${SLOGAN}
+    datasource:
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/DB_ESIC?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false}
+        username: ${SPRING_DATASOURCE_USERNAME:devuser}
+        password: ${SPRING_DATASOURCE_PASSWORD:dev@password}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    flyway:
+        enabled: true
+        locations: classpath:db/migration
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/DB_ESIC?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false}
+        user: ${SPRING_DATASOURCE_USERNAME:devuser}
+        password: ${SPRING_DATASOURCE_PASSWORD:dev@password}
+        baseline-on-migrate: true
+        baseline-version: ${FLYWAY_BASELINE_VERSION:1}
+
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    servlet:
+      multipart:
+          max-file-size: 10MB
+          max-request-size: 10MB
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: ${SMTP_LOGIN}
+        password: oawa skwk bbhe ninw
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true

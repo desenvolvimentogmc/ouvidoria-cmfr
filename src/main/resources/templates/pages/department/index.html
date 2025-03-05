@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html 
+    lang="pt-br" 
+    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Departamentos')}">
+<body>
+    <content>
+
+        <div class="container">
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-building-up"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Departamentos</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card shadow p-3">
+                        <table id="tbl-departments" class="table table-hover table-borderless">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Observação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="department : ${departments}">
+                                    <td>[[${department.id}]]</td>
+                                    <td class="nav-link" role="button" th:data-id="${department.id}"
+                                    onclick="window.location.href = `/departamentos/${this.dataset.id}`">[[${department.name}]]</td>
+                                    <td>[[${department.email}]]</td>
+                                    <td>[[${department.phone}]]</td>
+                                    <td>[[${department?.observation}]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="fab-container" sec:authorize="hasRole('ROLE_ROOT')">
+            <a href="/departamentos/novo-departamento" id="fab-main" class="btn btn-primary rounded-circle shadow"
+                data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="left"
+                data-bs-content="Cadastrar departamento">
+                <i class="bi bi-plus"></i>
+            </a>
+        </div>
+
+        <script src="/assets/vendors/datatables/jquery-3.7.1.js"></script>
+        <script src="/assets/vendors/datatables/datatables.js"></script>
+        <script src="/assets/vendors/datatables/datatables.bootstrap5.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                new DataTable('#tbl-departments', {
+                    responsive: true,
+                    language: {
+                        url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+                    },
+                });
+            });
+        </script>
+    </content>
+</body>
+
+</html>

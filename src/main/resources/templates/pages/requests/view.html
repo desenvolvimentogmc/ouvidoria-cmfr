@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Solicitação - ' + ${request.requester.username})}">
+
+<body>
+    <content>
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <div class="row align-items-center mb-7">
+                    <div class="col-auto">
+                        <!-- Avatar -->
+                        <div class="avatar avatar-xl rounded text-primary">
+                            <i class="bi bi-building-up"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <!-- Breadcrumb -->
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-2">
+                                <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página
+                                        Inicial</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page"><a class="text-body-secondary"
+                                        href="/solicitacoes">Solicitações</a></li>
+
+                            </ol>
+                        </nav>
+
+                        <!-- Heading -->
+                        <h1 class="fs-6 mb-0" aria-current="page">[[${request.requestType.title}]]
+                        </h1>
+                        <h1 class="fs-4 mb-0">Solicitação n.º [[${request.id}]]</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xxl-8 col-xl-7 mb-3">
+                        <!-- project card -->
+                        <div class="card shadow d-block">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="status" th:field="*{request.status}"
+                                                disabled="true" sec:authorize="hasRole('ROLE_COMUM')">
+                                                <option value="OPEN">Aberto</option>
+                                                <option value="UNDER_ANALYSIS">Em análise</option>
+                                                <option value="ANSWERED">Respondido</option>
+                                                <option value="APPEAL">Em recurso</option>
+                                                <option value="CLOSED">Finalizado</option>
+                                            </select>
+                                            <select class="form-select" id="status" th:field="*{request.status}"
+                                                onchange="handleStatus(this)"
+                                                sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT')">
+                                                <option value="" selected disabled>Selecione um status</option>
+                                                <option value="OPEN">Aberto</option>
+                                                <option value="UNDER_ANALYSIS">Em análise</option>
+                                                <option value="ANSWERED">Respondido</option>
+                                                <option value="APPEAL">Em recurso</option>
+                                                <option value="CLOSED">Finalizado</option>
+                                            </select>
+                                            <label for="status">Status</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <!-- assignee -->
+                                        <p class="mt-2 mb-1 text-muted fw-bold font-12 text-uppercase">Departamento</p>
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mt-1 font-14">
+                                                    [[${request.requestType.department.name}]]
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <!-- end assignee -->
+                                    </div> <!-- end col -->
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <!-- start due date -->
+                                        <p class="mt-2 mb-1 text-muted fw-bold font-12 text-uppercase">Abertura</p>
+                                        <div class="d-flex">
+                                            <i class="uil uil-schedule font-18 text-success me-1"></i>
+                                            <div>
+                                                <h5 class="mt-1 font-14">
+                                                    [[${#temporals.format(request.createdAt, 'dd/MM/yyyy HH:mm')}]]
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <!-- end due date -->
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+
+
+                                <h5 class="mt-3">Descrição:</h5>
+
+                                <p class="text-muted mb-4" th:utext="${request.description}"></p>
+
+                            </div> <!-- end card-body-->
+
+                        </div> <!-- end card-->
+
+                        <div class="card shadow mt-3">
+                            <div class="card-header">
+                                <h4 class="my-1">Respostas ([[${request.responses.size}]])</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="timeline">
+                                    <div class="timeline-item border rounded p-3 mb-3"
+                                        th:each="response : ${request.responses}">
+                                        <div class="d-flex justify-content-between">
+                                            <strong><i class="bi bi-person-circle me-3"></i><span
+                                                    class="text-primary">[[${response.user?.username}]]</span></strong>
+                                            <small class="text-muted">
+                                                <i class="bi bi-clock"></i>
+                                                [[${#temporals.format(response.createdAt, 'dd/MM/yyyy HH:mm')}]]
+                                            </small>
+                                        </div>
+                                        <p class="mt-0">
+                                            <span th:utext="${response.description}"></span>
+                                        </p>
+
+                                        <div class="mt-2 d-flex justify-content-end border-top pt-2 align-items-center">
+                                            <div class="d-flex gap-2">
+                                                <a th:href="${'/api/files/' + file.path}" class="text-decoration-none"
+                                                    target="_blank" th:each="file : ${response.attachments}">
+                                                    <i class="bi bi-paperclip"></i>
+                                                    [[${file.originalFileName}]]
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xxl-4 col-xl-5">
+
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Anexos</h5>
+                                <div class="alert alert-info" th:if="${request.attachments.size == 0}">
+                                    <i class="bi bi-exclamation-circle"></i> Não há anexos
+                                </div>
+                                <div class="card my-1 shadow-none border" th:if="${request.attachments.size > 0}">
+                                    <div class="p-2">
+                                        <div class="row align-items-center mb-3"
+                                            th:each="file : ${request.attachments}">
+                                            <div class="col-auto">
+                                                <div class="avatar-sm">
+                                                    <span class="avatar-title rounded">
+                                                        <i class="bi bi-file-earmark-post"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col ps-0">
+                                                <a th:href="${'/api/files/' + file.path}" target="_blank"
+                                                    class="text-muted fw-bold">[[${file.originalFileName}]]</a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <!-- Button -->
+                                                <a th:href="${'/api/files/' + file.path}" target="_blank"
+                                                    class="btn btn-link btn-lg text-muted">
+                                                    <i class="bi bi-cloud-arrow-down"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card shadow mt-3">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Dados do Solicitante</h5>
+
+                                <!-- Se for Pessoa Física -->
+                                <div th:if="${person instanceof T(br.com.gmc.ouvidoria.entity.model.Person)}">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6"><strong>Nome:</strong> [[${person?.name}]]</div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12"><strong>Gênero:</strong>
+                                            [[${person?.gender.description}]]</div>
+                                        <div class="col-md-12"><strong>Data de Nascimento:</strong>
+                                            [[${#temporals.format(person?.birthDate, 'dd/MM/yyyy')}]]</div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6"><strong>CPF:</strong> [[${person?.cpf != null ?
+                                            person?.cpf.substring(0, 3) + ".***.***-" +
+                                            person?.cpf.substring(person?.cpf.length() - 2) : ''}]]</div>
+                                        <div class="col-md-6"><strong>RG:</strong> [[${person?.rg != null ?
+                                            person?.rg.substring(0, 2) + ".***.***-" +
+                                            person?.rg.substring(person?.rg.length() - 2) : ''}]]</div>
+                                    </div>
+                                </div>
+
+                                <!-- Se for Pessoa Jurídica -->
+                                <div
+                                    th:if="${person instanceof T(br.com.gmc.ouvidoria.entity.model.LegalEntity)}">
+                                    <div class="row mb-3">
+                                        <div class="col-md-12"><strong>CNPJ:</strong> [[${person?.cnpj}]]</div>
+                                        <div class="col-md-12"><strong>Inscrição:</strong> [[${person?.subscriptionId}]]
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6"><strong>Nome do Contato:</strong>
+                                            [[${person?.contactName}]]</div>
+                                    </div>
+                                </div>
+
+                                <!-- Campos comuns a ambas as entidades -->
+                                <div class="row mb-3">
+                                    <div class="col-md-12"><strong>Telefone:</strong> [[${person?.phone}]]</div>
+                                    <div class="col-md-12"><strong>WhatsApp:</strong> [[${person?.whatsapp}]]</div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12"><strong>Endereço:</strong> [[${person?.address?.street}]], Nº
+                                        [[${person?.addressNumber}]]</div>
+                                    <div class="col-md-12"><strong>CEP:</strong> [[${person?.address?.cep}]]</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!-- end row -->
+
+            </div> <!-- container -->
+
+        </div>
+
+        <offcanvas th:replace="~{pages/requests/response}"></offcanvas>
+
+        <div class="fab-container" th:if="${request.status != T(br.com.gmc.ouvidoria.enums.Status).CLOSED}"
+            sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT')">
+            <a data-bs-toggle="offcanvas" href="#offcanvas-response" role="button" aria-controls="offcanvas-response"
+                id="fab-main" class="btn btn-primary rounded-circle shadow" data-bs-trigger="hover"
+                data-bs-placement="left" data-bs-content="Adicionar resposta">
+                <i class="bi bi-plus"></i>
+            </a>
+        </div>
+
+        <script>
+            const handleStatus = (select) => {
+                Swal.fire({
+                    toast: true,
+                    title: `Alterar para ${localeStatus(select.value)} ? `,
+                    showCancelButton: true,
+                    confirmButtonText: "Salvar",
+                    cancelButtonText: `Cancelar`
+                }).then(async (result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        const response = await fetch('/api/requests/[[${request.id}]]/status', {
+                            method: "PATCH",
+                            headers: {
+                                "Accept": "application/json",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ status: select.value })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            Swal.fire({
+                                title: "Status alterado!",
+                                icon: "success",
+                                toast: true
+                            });
+
+                            return null;
+                        }
+
+                        Swal.fire({
+                            title: data.message,
+                            icon: "error",
+                            toast: true
+                        });
+                    }
+                });
+            }
+
+            let hasEditor = false;
+
+            //TODO a chamada da ckeditor deverá estar em um arquivo à parte
+            const offcanvasResponse = document.getElementById('offcanvas-response');
+            offcanvasResponse.addEventListener('shown.bs.offcanvas', event => {
+
+                if (hasEditor) return;
+
+                const {
+                    ClassicEditor,
+                    Autosave,
+                    BalloonToolbar,
+                    BlockQuote,
+                    Bold,
+                    Essentials,
+                    Heading,
+                    Indent,
+                    IndentBlock,
+                    Italic,
+                    Link,
+                    Paragraph,
+                    Table,
+                    TableCaption,
+                    TableCellProperties,
+                    TableColumnResize,
+                    TableProperties,
+                    TableToolbar,
+                    Underline
+                } = window.CKEDITOR;
+
+                /**
+                 * This is a 24-hour evaluation key. Create a free account to use CDN: https://portal.ckeditor.com/checkout?plan=free
+                 */
+                const LICENSE_KEY =
+                    'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA3MDA3OTksImp0aSI6IjBmYWVlMWJkLTIzNGYtNDQ3MC1hOGViLTRmZGE5Y2MwYTg2YSIsImxpY2Vuc2VkSG9zdHMiOlsiKi53ZWJjb250YWluZXIuaW8iLCIqLmpzaGVsbC5uZXQiLCIqLmNzcC5hcHAiLCJjZHBuLmlvIiwiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIiwic2giXSwibGljZW5zZVR5cGUiOiJldmFsdWF0aW9uIiwidmMiOiJjOWIzZTcyNCJ9.5PtiNYRYe5iP1UrqMnr-Cv-U2DahGU0ToZrDx4Re13YLC_12NSjrnC2JLkhuKhuRqO3Im1cLQYi0jJV3BkKz5w';
+
+                const editorConfig = {
+                    toolbar: {
+                        items: ['heading', '|', 'bold', 'italic', 'underline', '|', 'link', 'insertTable', 'blockQuote', '|', 'outdent', 'indent'],
+                        shouldNotGroupWhenFull: false
+                    },
+                    plugins: [
+                        Autosave,
+                        BalloonToolbar,
+                        BlockQuote,
+                        Bold,
+                        Essentials,
+                        Heading,
+                        Indent,
+                        IndentBlock,
+                        Italic,
+                        Link,
+                        Paragraph,
+                        Table,
+                        TableCaption,
+                        TableCellProperties,
+                        TableColumnResize,
+                        TableProperties,
+                        TableToolbar,
+                        Underline
+                    ],
+                    balloonToolbar: ['bold', 'italic', '|', 'link'],
+                    heading: {
+                        options: [
+                            {
+                                model: 'paragraph',
+                                title: 'Paragraph',
+                                class: 'ck-heading_paragraph'
+                            },
+                            {
+                                model: 'heading1',
+                                view: 'h1',
+                                title: 'Heading 1',
+                                class: 'ck-heading_heading1'
+                            },
+                            {
+                                model: 'heading2',
+                                view: 'h2',
+                                title: 'Heading 2',
+                                class: 'ck-heading_heading2'
+                            },
+                            {
+                                model: 'heading3',
+                                view: 'h3',
+                                title: 'Heading 3',
+                                class: 'ck-heading_heading3'
+                            },
+                            {
+                                model: 'heading4',
+                                view: 'h4',
+                                title: 'Heading 4',
+                                class: 'ck-heading_heading4'
+                            },
+                            {
+                                model: 'heading5',
+                                view: 'h5',
+                                title: 'Heading 5',
+                                class: 'ck-heading_heading5'
+                            },
+                            {
+                                model: 'heading6',
+                                view: 'h6',
+                                title: 'Heading 6',
+                                class: 'ck-heading_heading6'
+                            }
+                        ]
+                    },
+                    language: 'pt-br',
+                    licenseKey: LICENSE_KEY,
+                    link: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                        decorators: {
+                            toggleDownloadable: {
+                                mode: 'manual',
+                                label: 'Downloadable',
+                                attributes: {
+                                    download: 'file'
+                                }
+                            }
+                        }
+                    },
+                    placeholder: 'Escreva uma resposta aqui',
+                    table: {
+                        contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+                    }
+                };
+
+
+                ClassicEditor.create(document.querySelector('#description'), editorConfig)
+                    .then(editor => {
+                        hasEditor = true;
+                        document.querySelector("form").addEventListener("submit", function (event) {
+                            let content = editor.getData().trim(); // Remove espaços extras
+                            if (content === "") {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Atenção!",
+                                    text: "O campo de descrição não pode estar vazio!",
+                                    confirmButtonText: "OK"
+                                });
+                                event.preventDefault(); // Impede o envio do formulário
+                            }
+                        });
+                    });
+            })
+        </script>
+    </content>
+</body>
+
+</html>

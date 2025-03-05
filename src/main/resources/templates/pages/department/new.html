@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Cadastrar departamento')}">
+
+<body>
+    <content>
+        <div class="container">
+
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-building-up"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a class="text-body-secondary"
+                                    href="/departamentos">Departamentos</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Novo Departamento</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Cadastrar Departamento</h1>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <form id="form-department" th:object="${department}" method="POST" action="/departments/new"
+                    class="mb-5 needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Nome"
+                                    required>
+                                <label for="name">Nome do Departamento</label>
+                                <div class="invalid-feedback">
+                                    Insira o departamento
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating">
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Telefone"
+                                    required oninput="maskPhone(this)">
+                                <label for="phone">Telefone</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="observation" name="observation"
+                                    placeholder="Observação">
+                                <label for="observation">Observação</label>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary w-25" id="btn-submit">Salvar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const form = document.querySelectorAll('#form-department')[0];
+            const buttonSubmit = document.getElementById('btn-submit');
+
+            form.addEventListener('submit', event => {
+
+                buttonSubmit.disabled = true;
+                buttonSubmit.innerHTML = "Por favor, aguarde...";
+
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    buttonSubmit.innerHTML = "Salvar";
+                    buttonSubmit.disabled = false;
+                }
+
+                form.classList.add("was-validated");
+
+            }, false);
+        </script>
+
+    </content>
+</body>
+
+</html>

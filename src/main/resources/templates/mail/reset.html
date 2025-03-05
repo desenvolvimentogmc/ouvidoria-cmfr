@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redefinição de Senha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+                padding: 15px !important;
+            }
+            .btn {
+                width: 100% !important;
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background:#ffffff; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); max-width:500px; margin:auto; text-align:center;">
+    <h2 style="color:#333;">Redefinição de Senha</h2>
+    <p style="color:#555;">Você solicitou a redefinição da sua senha. Clique no botão abaixo para definir uma nova senha.</p>
+    <a href="${RESET_LINK}" class="btn" style="display:inline-block; background:#007bff; color:#ffffff; text-decoration:none; padding:10px 20px; border-radius:5px; font-size:16px; margin-top:20px;">Redefinir Senha</a>
+    <p class="footer" style="margin-top:20px; font-size:14px; color:#666;">Este link expirará em 15 minutos.</p>
+</div>
+</body>
+</html>

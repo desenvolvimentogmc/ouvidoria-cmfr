@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Cadastrar departamento')}">
+
+<body>
+    <content>
+        <div class="container">
+
+
+            <div class="row align-items-center mb-7">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-building-up"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a class="text-body-secondary"
+                                    href="/funcionarios">Funcionários</a></li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Cadastrar funcionário</h1>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <form class="row g-3" th:object="${employee}" method="POST" action="/employees/new">
+                    
+                    <!-- Seção: Dados do Funcionário -->
+                    <h4 class="mb-3">Dados do Funcionário</h4>
+                    
+                    <!-- Primeira linha: Nome e Matrícula -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nome" th:field="*{name}" required>
+                            <label for="name">Nome do Funcionário</label>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="employeeId" name="employeeId" placeholder="ID do Funcionário" th:field="*{employeeId}" required>
+                            <label for="employeeId">Matrícula (ID do Funcionário)</label>
+                        </div>
+                    </div>
+            
+                    <!-- Segunda linha: CPF e Departamento -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" th:field="*{cpf}" oninput="maskCPF(this)" required>
+                            <label for="cpf">CPF</label>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="department" name="department" th:field="*{department}" required>
+                                <option value="" selected disabled>Selecione um departamento</option>
+                                <option th:each="department : ${departments}" 
+                                        th:value="${department.id}" 
+                                        th:text="${department.name}">
+                                </option>
+                            </select>
+                            <label for="department">Departamento</label>
+                        </div>
+                    </div>
+            
+                    <hr class="mt-4 mb-4">
+            
+                    <!-- Seção: Dados do Usuário -->
+                    <h4 class="mb-3">Dados do Usuário</h4>
+            
+                    <!-- Terceira linha: Usuário e Senha -->
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="username" name="user.username" placeholder="Nome de usuário" th:field="*{user.username}" required>
+                            <label for="username">Nome de usuário</label>
+                        </div>
+                    </div>
+            
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="password" name="user.password" placeholder="Senha" th:field="*{user.password}" required>
+                            <label for="password">Senha</label>
+                        </div>
+                    </div>
+            
+                    <!-- Quarta linha: Confirmação de senha -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Senha" required>
+                            <label for="confirmPassword">Confirmar Senha</label>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select class="form-select" id="roleSelect" name="role">
+                                <option selected disabled>Selecione o nível de acesso</option>
+                                <option th:each="role : ${roles}" th:if="${role.name != 'ROLE_COMUM'}" th:value="${role.name}" th:text="${role.description}"></option>
+                            </select>
+                            <label for="roleSelect">Nível de acesso</label>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Quinta linha: Checkboxes -->
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="checkbox" id="enabled" name="user.enabled" checked>
+                            <label class="form-check-label" for="enabled">Ativo</label>
+                        </div>
+            
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="mustUpdatePassword" name="user.mustUpdatePassword" checked>
+                            <label class="form-check-label" for="mustUpdatePassword">Deve atualizar senha</label>
+                        </div>
+                    </div>
+            
+                    <!-- Botão de envio -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary px-4">Salvar</button>
+                    </div>
+            
+                </form>
+            </div>
+            
+            
+            
+            
+
+            <script>
+                document.querySelector("form").addEventListener("submit", function(event) {
+                    let password = document.getElementById("password").value;
+                    let confirmPassword = document.getElementById("confirmPassword").value;
+                    
+                    if (password !== confirmPassword) {
+                        event.preventDefault();
+                        alert("As senhas não coincidem. Por favor, verifique.");
+                    }
+                });
+            </script>
+        </div>
+    </content>
+</body>
+
+</html>
