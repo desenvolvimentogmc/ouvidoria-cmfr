@@ -47,10 +47,23 @@
                         <select class="form-select" id="requestType" name="requestType" required>
                             <option value="" selected disabled>Selecione um tipo de solicitação</option>
                             <option th:each="requestType : ${requestTypeList}" th:value="${requestType.id}"
-                                th:text="${requestType.title}">
+                                th:text="${requestType.title  + ' - ' + requestType.department.name}">
                             </option>
                         </select>
                         <label for="requestType">Tipo de Solicitação</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <select id="category" class="form-select" required name="category">
+                            <option value="" selected disabled>Selecione a categoria</option>
+                            <!-- Adicione aqui as opções de Category -->
+                            <option th:each="category : ${categories}" th:value="${category}"
+                                th:text="${category.description}"></option>
+                        </select>
+                        <label for="category">Categoria</label>
+                        <div class="invalid-feedback">
+                            Por favor, selecione a categoria.
+                        </div>
                     </div>
 
                     <div class="col-12">

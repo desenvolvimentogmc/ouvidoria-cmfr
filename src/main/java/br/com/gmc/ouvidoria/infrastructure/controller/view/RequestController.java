@@ -2,6 +2,7 @@ package br.com.gmc.ouvidoria.infrastructure.controller.view;
 
 import br.com.gmc.ouvidoria.entity.model.Request;
 import br.com.gmc.ouvidoria.entity.model.Response;
+import br.com.gmc.ouvidoria.enums.Category;
 import br.com.gmc.ouvidoria.usecase.employee.FindEmployeeByUser;
 import br.com.gmc.ouvidoria.usecase.request.*;
 import br.com.gmc.ouvidoria.usecase.requesttype.ListRequestTypes;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author thiago-ribeiro
@@ -88,6 +90,7 @@ public class RequestController {
     @GetMapping({"/new", "/nova-solicitacao"})
     public String openByRequester(Model model, Request newRequest) {
         model.addAttribute("requestTypeList", this.listRequestTypes.execute());
+        model.addAttribute("categories", Arrays.asList(Category.values()));
         return DEFAULT_CONTEXT + "/open";
     }
 
