@@ -4,7 +4,10 @@
         <div class="row">
             <div class="col-md-4 mb-3">
 
-                <img th:src="/api/files/${settings.landingPage.footerLogo}" alt="" >
+                <img 
+                    th:if="${settings.landingPage.footerLogo != '${FOOTER_LOGO}'}" 
+                    class="img-fluid"
+                    th:src="${'/api/files/public/' + settings.landingPage?.footerLogo}" alt="" >
 
                 <h5>[[${settings.name}]]</h5>
 

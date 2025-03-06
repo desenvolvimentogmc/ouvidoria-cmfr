@@ -215,8 +215,10 @@
         }
 
         document.getElementById("protocol").addEventListener("input", function (e) {
+
             let input = e.target.value;
 
+            console.log(input)
             // Remove tudo que não for número
             input = input.replace(/\D/g, "");
 

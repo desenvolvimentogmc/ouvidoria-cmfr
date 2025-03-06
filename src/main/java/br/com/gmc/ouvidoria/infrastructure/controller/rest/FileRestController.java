@@ -48,4 +48,22 @@ public class FileRestController {
 
         return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).headers(headers).body(resource);
     }
+
+    @GetMapping("/public/{imagePathOrName}")
+    public ResponseEntity<Resource> getPublicFile(@PathVariable String imagePathOrName) throws IOException, MalformedURLException {
+
+        Path path = Paths.get(storagePath + "/" + imagePathOrName);
+
+        Resource resource = new UrlResource(path.toUri());
+
+        String contentType = Files.probeContentType(path);
+        if (contentType == null) {
+            contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + path.getFileName().toString() + "\"");
+
+        return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).headers(headers).body(resource);
+    }
 }

@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                                         "/manifestacao-anonima/**",
                                         "/acesso/**",
                                         "/changepwd/**",
+                                        "/api/files/public/**",
                                         "/graph-responses").permitAll()
                                 .requestMatchers(HttpMethod.POST,
                                     "/api/persons",
