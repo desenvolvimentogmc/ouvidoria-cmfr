@@ -5,7 +5,7 @@
     <!-- Configuração do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>[[${settings.title}]] - Sistema de Informação ao Cidadão</title>
+    <title>[[${settings.title}]] - Sistema de Ouvidoria</title>
 
     <!-- Importação de estilos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -20,78 +20,102 @@
     <!-- Barra flutuante -->
     <float-bar th:replace="~{layout/landingpage/float-bar}"></float-bar>
     <!-- Cabeçalho principal com banner e descrição -->
-    <header class="bg-secondary text-white py-5">
+
+    <header class="bg-primary text-white py-5">
         <div class="container">
+
             <div class="row align-items-center">
                 <!-- Imagem ilustrativa do sistema -->
                 <div class="col-md-6 text-center">
-                    <img src="/assets/img/backgrounds/Customer-Survey-color.svg" alt="Imagem e-SIC" class="img-fluid"
+                    <img src="/assets/img/backgrounds/Help-color-800px.png" alt="Imagem Ouvidoria" class="img-fluid"
                         style="max-width: 400px;">
                 </div>
 
-                <!-- Texto introdutório sobre o e-SIC -->
+                <!-- Texto introdutório sobre a Ouvidoria -->
                 <div class="col-md-6">
-                    <h4 class="text-center mb-3">O Sistema Eletrônico do Serviço de Informação ao Cidadão</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item">Solicite informações de forma rápida.</li>
-                        <li class="list-group-item">Garantia do direito ao acesso à informação.</li>
-                        <li class="list-group-item">Processo transparente e eficiente.</li>
-                    </ul>
+                    <h4 class="text-center mb-3">Ouvidoria</h4>
 
-                    <!-- Botão para solicitar informações -->
-                    <div class="mt-3">
-                        <a class="btn btn-primary w-100 rounded-4" role="button" href="/acesso">
-                            <i class="bi bi-mouse3"></i> Solicitar uma informação</a>
+                    <p class="text-center">Cadastre a sua manifestação</p>
+
+                    <!-- Texto introdutório sobre a Ouvidoria -->
+                    <div class="col-md-12">
+
+                        <!-- Botão para registrar manifestação -->
+                        <div class="mt-3 d-flex flex-column gap-3">
+                            <!-- Botão para manifestação anônima -->
+                            <a class="btn btn-secondary w-100 rounded-4" role="button" href="/manifestacao-anonima">
+                                <i class="bi bi-incognito"></i> Manifestação Anônima
+                            </a>
+
+                            <!-- Botão para cadastro -->
+                            <a class="btn btn-secondary w-100 rounded-4" role="button" href="/acesso/novo-cadastro">
+                                <i class="bi bi-file-earmark-break-fill"></i> Faça seu cadastro
+                            </a>
+                        </div>
+
+
                     </div>
+
+
+
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Seção de estatísticas do e-SIC -->
+    <section id="consulta" class="py-5 text-center">
+        <div class="container">
+            <h2 class="mb-4">Acompanhamentos</h2>
+            <p>Aqui você pode acompanhar o status das suas manifestações.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <!-- Caixa de pesquisa de protocolo com grupo -->
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="protocolo"
+                                placeholder="Digite o número do protocolo" required>
+                            <button type="submit" class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-search"></i> Consultar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Informação sobre protocolos anônimos -->
+                    <small class="text-muted d-block mt-2">
+                        Apenas demandas anônimas podem ser pesquisadas por este número de protocolo.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Seção de estatísticas da Ouvidoria -->
     <section id="estatisticas" class="py-5 bg-light text-center">
         <div class="container">
             <h2>Estatísticas</h2>
-            <p>Acompanhe os dados e métricas do e-SIC.</p>
+            <p>Acompanhe os dados e métricas da Ouvidoria.</p>
             <div class="row">
                 <div class="col-sm-6 col-lg-4">
                     <div class="card p-3 mb-3 shadow-sm">
                         <h3>[[${OPEN}]]</h3>
-                        <p>Pedidos em aberto</p>
+                        <p>Manifestações em aberto</p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="card p-3 mb-3 shadow-sm">
                         <h3>[[${APPEAL}]]</h3>
-                        <p>Pedidos em recurso</p>
+                        <p>Manifestações em análise</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-4">
                     <div class="card p-3 mb-3 shadow-sm">
                         <h3>[[${CLOSED}]]</h3>
-                        <p>Pedidos respondidos ao cidadão</p>
+                        <p>Manifestações concluídas</p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <div class="card p-3 shadow-sm" style="min-height: 400px; max-height: 400px">
-                        <h4>Solicitações por tipo de pessoa</h4>
-                        <div class="d-flex justify-content-center chart-container">
-                            <canvas id="pieChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <div class="card p-3 shadow-sm" style="min-height: 400px">
-                        <h4>Respostas por dia</h4>
-                        <div class="d-flex justify-content-center chart-container">
-                            <canvas id="lineChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <p class="mt-3 mb-0">
                 Fonte: desde [[${#temporals.format(releaseDate, 'dd/MM/yyyy')}]]
             </p>
@@ -102,160 +126,89 @@
     <section id="faq" class="py-5 text-center">
         <div class="container">
             <h2>Perguntas Frequentes</h2>
-            <p>Encontre respostas para as dúvidas mais comuns sobre o e-SIC.</p>
+            <p>Encontre respostas para as dúvidas mais comuns sobre a Ouvidoria.</p>
             <div class="accordion" id="faqAccordion">
                 <div class="accordion-item">
-                    <h2 class="accordion-header"><button class="accordion-button" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#q1">O que é o e-SIC?</button></h2>
-                    <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">O e-SIC permite que qualquer pessoa solicite informações públicas de
-                            órgãos do governo.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#q2">Qual lei criou o e-SIC?</button></h2>
-                    <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">O e-SIC foi criado com base na Lei de Acesso à Informação (Lei nº
-                            12.527/2011).</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#q3">Quem pode solicitar informações pelo
-                            e-SIC?</button></h2>
-                    <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">Qualquer cidadão pode solicitar informações, sem necessidade de
-                            justificativa.</div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#q4">Como faço uma solicitação no e-SIC?</button>
+                    <h2 class="accordion-header" id="heading1">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                            O que é a Ouvidoria?
+                        </button>
                     </h2>
-                    <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">Basta acessar o sistema, preencher o formulário e enviar a
-                            solicitação.</div>
+                    <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            A Ouvidoria é um canal de comunicação entre o cidadão e a instituição, permitindo o registro
+                            de reclamações, elogios, sugestões e denúncias.
+                        </div>
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <h2 class="accordion-header"><button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#q5">Em quanto tempo receberei uma
-                            resposta?</button></h2>
-                    <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">O prazo é de 20 dias, podendo ser prorrogado por mais 10 dias.</div>
+                    <h2 class="accordion-header" id="heading2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                            Quais tipos de manifestações posso fazer?
+                        </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Você pode registrar denúncias, reclamações, sugestões, elogios e solicitações.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                            Quem pode utilizar a Ouvidoria?
+                        </button>
+                    </h2>
+                    <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Qualquer pessoa pode utilizar a Ouvidoria para registrar uma manifestação.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading4">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                            Meu registro é sigiloso?
+                        </button>
+                    </h2>
+                    <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Sim, todas as manifestações são tratadas com sigilo quando solicitado pelo usuário.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading5">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                            Em quanto tempo receberei uma resposta?
+                        </button>
+                    </h2>
+                    <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            O prazo médio de resposta é de 30 dias, podendo variar conforme a complexidade do caso.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Inclua os arquivos JavaScript do Bootstrap para garantir que o Accordion funcione -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <!-- Rodapé do site -->
     <footer th:replace="~{layout/footer}"></footer>
-
-    <!-- Importação de scripts -->
-    <script src="/assets/js/theme.bundle.js"></script>
-    <script src="/assets/vendors/chartsjs/chart.min.js"></script>
-    <script>
-
-        window.onload = async () => {
-            const ctx = document.getElementById('pieChart').getContext('2d');
-
-            const naturalPerson = '[[${naturalPersonCount}]]'
-            const legalEntity = '[[${legalEntityCount}]]'
-
-            const myChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ["Pessoa Física", "Pessoa Jurídica"],
-                    datasets: [{
-                        data: [naturalPerson, legalEntity], // Valores fictícios
-                        backgroundColor: ["#36A2EB", "#FF6384"],
-                        borderColor: ["#1E88E5", "#D32F2F"],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: "top"
-                        }
-                    }
-                }
-            });
-
-            const { labels, values } = await getStatistics();
-            // const labels = ["2024-02-14", "2024-02-15", "2024-02-16", "2024-02-17", "2024-02-18", "2024-02-19", "2024-02-20"];
-            // const dataValues = [5, 12, 8, 15, 10, 18, 14];
-
-            const ctxLine = document.getElementById('lineChart').getContext('2d');
-            new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: "Respostas por Dia",
-                        data: values,
-                        borderColor: "#36A2EB",
-                        backgroundColor: "rgba(54, 162, 235, 0.2)",
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: "top"
-                        },
-                        title: {
-                            display: true,
-                            text: "Quantidade de Respostas por Dia"
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: "Data"
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: "Número de Respostas"
-                            },
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-        }
-
-        const getStatistics = async () => {
-            const response = await fetch(`/graph-responses`);
-
-            let labels = [];
-            let values = [];
-
-            if (response.ok) {
-                const data = await response.json();
-
-                data.forEach(element => {
-                    labels.push(new Date(element[0]).toLocaleDateString('pt-br'))
-                    values.push(element[1])
-                });
-
-                return { values, labels }
-            }
-
-        }
-    </script>
 </body>
 
 </html>

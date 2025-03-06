@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.gmc.ouvidoria.enums.Category;
 import br.com.gmc.ouvidoria.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,9 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String protocol;
+
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
@@ -49,6 +53,9 @@ public class Request {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<File> attachments = new ArrayList<>();
