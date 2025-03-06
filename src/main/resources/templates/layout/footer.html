@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4 mb-3">
 
-                <img th:src="${settings.landingPage.footerLogo}" alt="" >
+                <img th:src="/api/files/${settings.landingPage.footerLogo}" alt="" >
 
                 <h5>[[${settings.name}]]</h5>
 
@@ -25,6 +25,6 @@
             </div>
         </div>
         <hr class="bg-light">
-        <p class="mb-0">&copy; [[${#dates.year(#dates.createNow())}]] GMC. Todos os direitos reservados.</p>
+        <p class="mb-0">&copy; [[${#dates.year(#dates.createNow())}]] Desenvolvido por [[${COMPANY}]]. Todos os direitos reservados.</p>
     </div>
 </footer>
