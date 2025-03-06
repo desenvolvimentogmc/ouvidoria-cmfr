@@ -35,8 +35,6 @@ form.addEventListener("submit", (event) => {
     }
   });
 
-  console.log(jsonObject);
-
   if (!jsonObject.password || !jsonObject.confirmPassword) {
     Swal.fire({
       title: "Erro ao realizar cadastro",
@@ -53,7 +51,8 @@ form.addEventListener("submit", (event) => {
       `,
       icon: "error",
     });
-
+    btnSalvar.innerHTML = "Salvar";
+    btnSalvar.disabled = false;
     return null;
   }
 
@@ -67,7 +66,8 @@ form.addEventListener("submit", (event) => {
       `,
       icon: "error",
     });
-
+    btnSalvar.disabled = false;
+    btnSalvar.innerHTML = "Salvar";
     return null;
   }
 
@@ -81,6 +81,8 @@ form.addEventListener("submit", (event) => {
       `,
       icon: "error",
     });
+    btnSalvar.innerHTML = "Salvar";
+    btnSalvar.disabled = false;
     return null;
   }
 
@@ -117,6 +119,8 @@ const handleSubmit = async (form) => {
       `,
       icon: "error",
     });
+    btnSalvar.innerHTML = "Salvar";
+    btnSalvar.disabled = false;
   }
 
   let dto = {
@@ -139,8 +143,6 @@ const handleSubmit = async (form) => {
   };
 
   let endpoint = "";
-
-  console.log(dto);
 
   if (form.personType === "fisica") {
     endpoint = `/api/persons`;
@@ -168,9 +170,6 @@ const handleSubmit = async (form) => {
     body: JSON.stringify(dto),
   });
 
-  btnSalvar.innerHTML = "Salvar";
-  btnSalvar.disabled = false;
-
   if (!response.ok) {
     const data = await response.json();
     displayErrors(data);
@@ -185,6 +184,8 @@ const handleSubmit = async (form) => {
         `,
       icon: "error",
     });
+    btnSalvar.innerHTML = "Salvar";
+    btnSalvar.disabled = false;
   }
 
   const data = await response.json();
@@ -204,6 +205,8 @@ const handleSubmit = async (form) => {
   });
 
   form.reset();
+  btnSalvar.innerHTML = "Cadastro salvo com sucesso!";
+  btnSalvar.disabled = true;
 };
 
 document.addEventListener("DOMContentLoaded", function () {
