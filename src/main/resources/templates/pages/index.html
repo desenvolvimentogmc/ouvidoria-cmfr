@@ -52,12 +52,7 @@
                                 <i class="bi bi-file-earmark-break-fill"></i> Faça seu cadastro
                             </a>
                         </div>
-
-
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -66,19 +61,19 @@
     <section id="consulta" class="py-5 text-center">
         <div class="container">
             <h2 class="mb-4">Acompanhamentos</h2>
-            <p>Aqui você pode acompanhar o status das suas manifestações.</p>
+            <p>Aqui você pode acompanhar o status das suas manifestações anônimas.</p>
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <!-- Caixa de pesquisa de protocolo com grupo -->
-                    <div class="mb-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="protocolo"
-                                placeholder="Digite o número do protocolo" required>
-                            <button type="submit" class="btn btn-outline-secondary ms-2">
+                    <form class="mb-4" action="/manifestacao-anonima/search" method="GET">
+                        <div class="input-group w-100 shadow">
+                            <input type="text" class="form-control" name="protocol" id="protocol"
+                                placeholder="Digite o número do protocolo" required style="font-weight: 900;">
+                            <button type="submit" class="btn btn-outline-secondary ms-2" style="font-weight: 900;">
                                 <i class="bi bi-search"></i> Consultar
                             </button>
                         </div>
-                    </div>
+                    </form>
 
                     <!-- Informação sobre protocolos anônimos -->
                     <small class="text-muted d-block mt-2">
@@ -88,8 +83,6 @@
             </div>
         </div>
     </section>
-
-
 
     <!-- Seção de estatísticas da Ouvidoria -->
     <section id="estatisticas" class="py-5 bg-light text-center">
@@ -203,12 +196,52 @@
         </div>
     </section>
 
-    <!-- Inclua os arquivos JavaScript do Bootstrap para garantir que o Accordion funcione -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <!-- Rodapé do site -->
     <footer th:replace="~{layout/footer}"></footer>
+
+    <!-- Inclua os arquivos JavaScript do Bootstrap para garantir que o Accordion funcione -->
+    <script src="/assets/vendors/sweetalert2/sweetalert2.11.15.10.js"></script>
+
+    <script>
+
+        if('[[${info}]]' !== '') {
+            Swal.fire({
+                icon: 'info',
+                title: 'Informação!',
+                text: '[[${info}]]',
+                confirmButtonText: 'Fechar',
+                timer: 5000, // O alerta desaparecerá após 5 segundos
+            });
+        }
+
+        document.getElementById("protocol").addEventListener("input", function (e) {
+            let input = e.target.value;
+
+            // Remove tudo que não for número
+            input = input.replace(/\D/g, "");
+
+            // Aplica a máscara para o formato 202503061012-81887
+            if (input.length <= 12) {
+                input = input.replace(
+                    /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})?/,
+                    "$1$2$3$4$5"
+                );
+            } else {
+                input = input.replace(
+                    /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{5})/,
+                    "$1$2$3$4$5-$6"
+                );
+            }
+
+            // Limita o número de caracteres a 16 (incluindo o hífen)
+            if (input.length > 18) {
+                input = input.substring(0, 18);
+            }
+
+            // Atualiza o valor do campo de entrada com a máscara
+            e.target.value = input;
+        });
+    </script>
 </body>
 
 </html>

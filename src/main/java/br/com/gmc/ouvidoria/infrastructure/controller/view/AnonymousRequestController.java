@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.gmc.ouvidoria.entity.model.Request;
 import br.com.gmc.ouvidoria.enums.Category;
 import br.com.gmc.ouvidoria.usecase.request.CreateAnonymousRequest;
+import br.com.gmc.ouvidoria.usecase.request.FindAnonymousRequestByProtocol;
 import br.com.gmc.ouvidoria.usecase.requesttype.ListRequestTypes;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +29,14 @@ public class AnonymousRequestController {
 
     private final CreateAnonymousRequest createAnonymousRequest;
     private final ListRequestTypes listRequestTypes;
+    private final FindAnonymousRequestByProtocol findAnonymousRequestByProtocol;
 
-    public AnonymousRequestController(CreateAnonymousRequest createAnonymousRequest, ListRequestTypes listRequestTypes) {
+    public AnonymousRequestController(CreateAnonymousRequest createAnonymousRequest, 
+                                        ListRequestTypes listRequestTypes, 
+                                        FindAnonymousRequestByProtocol findAnonymousRequestByProtocol) {
         this.createAnonymousRequest = createAnonymousRequest;
         this.listRequestTypes = listRequestTypes;
+        this.findAnonymousRequestByProtocol = findAnonymousRequestByProtocol;
     }
 
     @GetMapping
@@ -53,6 +59,21 @@ public class AnonymousRequestController {
         }
         return "redirect:/manifestacao-anonima";
     }
+
+    @GetMapping("/search")
+    public String getByProtocol(@RequestParam String protocol, Model model, RedirectAttributes ra) {
+
+        Request request = this.findAnonymousRequestByProtocol.execute(protocol);
+        
+        if(request == null) {
+            ra.addFlashAttribute("info", "Protocolo não localizado.");
+            return "redirect:/";
+        }
+
+        model.addAttribute("request", request);
+        return DEFAULT_CONTEXT + "/view";
+    }
+    
     
     
     

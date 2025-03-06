@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author thiago-ribeiro
@@ -34,12 +35,16 @@ public class CreateResponse {
         response.setCreatedAt(LocalDateTime.now());
         response.setRequest(request);
         response.setUser(new User(SecurityContextHolder.getContext().getAuthentication().getName()));
-        return response;
+        return this.gateway.saveOrUpdate(response);
     }
 
     public Response execute(Response response, Request request, MultipartFile[] files) throws IOException {
 
-        if(files == null || files.length == 0) return this.execute(response, request);
+         if(files ==null || files.length==0 || Objects.requireNonNull(files[0].getOriginalFilename()).isEmpty() || Objects.requireNonNull(files[0].getOriginalFilename()).isBlank()) {
+            response.setAttachments(null);
+            return this.execute(response, request);
+        }
+
 
         response.setUser(new User(SecurityContextHolder.getContext().getAuthentication().getName()));
         response.setCreatedAt(LocalDateTime.now());

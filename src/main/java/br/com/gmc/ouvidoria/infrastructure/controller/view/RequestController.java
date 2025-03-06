@@ -160,7 +160,8 @@ public class RequestController {
 
         model.addAttribute("request", request);
         model.addAttribute("response", new Response());
-        model.addAttribute("person", this.findPersonOrLegalEntityByUsername.execute(request.getRequester().getUsername()));
+        if (request.getRequester() != null) 
+            model.addAttribute("person", this.findPersonOrLegalEntityByUsername.execute(request.getRequester().getUsername()));
         return DEFAULT_CONTEXT + "/view";
     }
     

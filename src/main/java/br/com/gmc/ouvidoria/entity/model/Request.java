@@ -44,7 +44,7 @@ public class Request {
     @ManyToOne(optional = false)
     private RequestType requestType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private User requester;
 
     private LocalDateTime createdAt;

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.gmc.ouvidoria.entity.model.Request;
+import br.com.gmc.ouvidoria.entity.model.User;
 
 /**
  * @author thiago-ribeiro
@@ -52,4 +53,6 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     Long countRequestsByRequestType_Department_IdAndStatus(Integer departmentId, Status status);
 
     List<Request> findAllByStatus(Status status);
+
+    Request findByProtocolAndRequester(String protocol, User requester);
 }

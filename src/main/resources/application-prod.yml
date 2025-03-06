@@ -1,6 +1,6 @@
 spring:
     application:
-        name: springboot-gestao-atendimentos
+        name: springboot-ouvidoria
         release-date: 2025-02-20
         url: ${APPLICATION_URL}
         file:

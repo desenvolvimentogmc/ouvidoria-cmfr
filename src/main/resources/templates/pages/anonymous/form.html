@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Configuração do documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>[[${settings.title}]] - Sistema de Ouvidoria</title>
+
+    <!-- Importação de estilos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/theme.bundle.css">
+    <link rel="stylesheet" href="/assets/css/index.css">
+
+    <!-- Script para controle do modo de cores -->
+    <script src="/assets/js/color.mode.js"></script>
+</head>
+
+<body>
+    <!-- Barra flutuante -->
+    <float-bar th:replace="~{layout/landingpage/float-bar}"></float-bar>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 w-100">
+                <div class="card shadow ">
+                    <div class="card-header text-center">
+                        <h5>Formulário de Solicitação</h5>
+                    </div>
+                    <div class="card-body">
+                        <form class="needs-validation" novalidate method="post" th:object="${request}"
+                            action="/manifestacao-anonima">
+                            <div class="row mb-3">
+                                <div class="col-12 mb-3">
+                                    <div class="form-floating">
+                                        <textarea id="description" class="form-control" placeholder="Digite a descrição"
+                                            name="description" style="height: 200px;" required></textarea>
+                                        <label for="description">Descrição</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, digite a descrição.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-floating">
+                                        <select id="requestType" class="form-select" required name="requestType.id">
+                                            <option value="" selected disabled>Selecione o tipo de solicitação</option>
+                                            <!-- Adicione aqui as opções de RequestType -->
+                                            <option th:each="rt : ${requestTypeList}" th:value="${rt.id}"
+                                                th:text="${rt.title + ' - ' + rt.department.name}">Tipo 1</option>
+                                        </select>
+                                        <label for="requestType">Tipo de Solicitação</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, selecione o tipo de solicitação.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-floating">
+                                        <select id="category" class="form-select" required name="category">
+                                            <option value="" selected disabled>Selecione a categoria</option>
+                                            <!-- Adicione aqui as opções de Category -->
+                                            <option th:each="category : ${categories}" th:value="${category}"
+                                                th:text="${category.description}"></option>
+                                        </select>
+                                        <label for="category">Categoria</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, selecione a categoria.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12 mb-3">
+                                    <label for="attachments">Anexos</label>
+                                    <input type="file" id="attachments" class="form-control" name="files" multiple>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button class="btn btn-primary" type="submit">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rodapé do site -->
+    <footer th:replace="~{layout/footer}"></footer>
+
+    <!-- Inclua os arquivos JavaScript do Bootstrap para garantir que o Accordion funcione -->
+    <script src="/assets/js/theme.bundle.js"></script>
+
+    <script src="/assets/vendors/sweetalert2/sweetalert2.11.15.10.js"></script>
+    <script>
+
+        window.onload = () => {
+            var numeroProtocolo = "12345-XYZ";
+
+            if('[[${success}]]' !== '') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Manifestação registrada.',
+                    html: '[[${success}]] <strong style="font-size: 20px; color: #007bff;">[[${protocol}]]</strong>. [[${message}]]',
+                    confirmButtonText: 'Salvei meu n.º de protocolo',
+                    allowOutsideClick: false,  // Impede o alerta de fechar ao clicar fora
+                    customClass: {
+                        popup: 'swal-wide', // Se quiser deixar o alerta mais largo
+                    },
+                });
+            }
+
+        }
+
+        // Habilita a validação no envio do formulário
+        (function () {
+            'use strict'
+            // Obtém todos os formulários que possuem a classe de validação
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Itera sobre os formulários e previne o envio caso não sejam válidos
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+
+</html>

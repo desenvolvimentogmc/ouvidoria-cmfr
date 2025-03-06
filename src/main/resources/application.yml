@@ -1,5 +1,5 @@
 spring:
   application:
-    name: springboot-gestao-atendimentos
+    name: springboot-ouvidoria
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}

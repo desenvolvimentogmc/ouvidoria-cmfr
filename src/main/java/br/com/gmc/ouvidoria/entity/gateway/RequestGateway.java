@@ -90,4 +90,8 @@ public class RequestGateway {
     public List<Request> findAllByStatus(Status status) {
 		return this.repository.findAllByStatus(status);
     }
+
+    public Request findByProtocolAndAnonymous(String protocol) {
+        return this.repository.findByProtocolAndRequester(protocol, null);
+    }
 }

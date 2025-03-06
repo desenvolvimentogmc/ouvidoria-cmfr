@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                         requests -> requests
                                 .requestMatchers(
                                         "/",
+                                        "/manifestacao-anonima/**",
                                         "/acesso/**",
                                         "/changepwd/**",
                                         "/graph-responses").permitAll()
@@ -45,6 +46,7 @@ public class SecurityConfiguration {
                                     "/api/legal-entities",
                                         "/api/recovery/**",
                                         "/changepwd/**",
+                                        "/manifestacao-anonima",
                                         "/graph-responses").permitAll()
                                 .requestMatchers("/assets/**").permitAll()
                                 .anyRequest().authenticated())

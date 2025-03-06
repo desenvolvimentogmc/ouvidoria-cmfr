@@ -1,6 +1,6 @@
 spring:
     application:
-        name: springboot-gestao-atendimentos
+        name: springboot-ouvidoria
         release-date: 2025-02-20
         url: ${APPLICATION_URL://localhost:8080}
         file:
@@ -31,7 +31,7 @@ spring:
     flyway:
         enabled: true
         locations: classpath:db/migration
-        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/DB_ESIC?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false}
+        url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/DB_OUVIDORIA?allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false}
         user: ${SPRING_DATASOURCE_USERNAME:devuser}
         password: ${SPRING_DATASOURCE_PASSWORD:dev@password}
         baseline-on-migrate: true

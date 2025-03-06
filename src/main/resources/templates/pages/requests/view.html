@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br"
-    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Solicitação - ' + ${request.requester.username})}">
+    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Solicitação - ' + ${request.protocol})}">
 
 <body>
     <content>
@@ -20,7 +20,7 @@
                         <!-- Breadcrumb -->
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-2">
-                                <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página
+                                <li class="breadcrumb-item"><a class="text-body-secondary" href="/">Página
                                         Inicial</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page"><a class="text-body-secondary"
@@ -32,7 +32,7 @@
                         <!-- Heading -->
                         <h1 class="fs-6 mb-0" aria-current="page">[[${request.requestType.title}]]
                         </h1>
-                        <h1 class="fs-4 mb-0">Solicitação n.º [[${request.id}]]</h1>
+                        <h1 class="fs-4 mb-0">Solicitação n.º [[${request.id}]] | [[${request.protocol}]]</h1>
                     </div>
                 </div>
 
