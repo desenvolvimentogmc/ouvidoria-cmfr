@@ -12,6 +12,7 @@ spring:
                 title: ${TITLE}
                 name: ${NAME}
                 favicon: ${FAVICON}
+                company: ${COMPANY}
                 media:
                     instagram: ${INSTAGRAM}
                     facebook: ${FACEBOOK}

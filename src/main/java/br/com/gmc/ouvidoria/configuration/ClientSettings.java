@@ -17,6 +17,7 @@ public class ClientSettings {
     private String favicon;
     private Media media;
     private LandingPage landingPage;
+    private String company;
 
     @Getter
     @Setter
