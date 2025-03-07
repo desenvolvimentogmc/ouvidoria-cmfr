@@ -2,7 +2,8 @@
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center text-decoration-none" href="/">
             <img th:if="${settings.landingPage.footerLogo != '${HEADER_LOGO}'}" class="img-fluid me-2" width="32"  th:src="${'/api/files/public/' + settings.landingPage?.headerLogo}" alt="Logo">
-            <span style="font-weight: 600;">[[${settings.title}]]</span>
+            <span class="d-block d-sm-none" style="font-weight: 600;">Ouvidoria</span>
+            <span class="d-none d-sm-block" style="font-weight: 600;">[[${settings.title}]]</span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
