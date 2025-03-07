@@ -17,6 +17,7 @@ spring:
                     facebook: ${FACEBOOK}
                     linkedin: ${LINKEDIN}
                     site: ${SITE}
+                    whatsapp: ${WHATSAPP}
                 landing-page:
                     header-logo: ${HEADER_LOGO}
                     footer-logo: ${FOOTER_LOGO}

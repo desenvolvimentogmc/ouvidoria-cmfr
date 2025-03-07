@@ -163,7 +163,7 @@ public class RequestController {
 
         model.addAttribute("request", request);
         model.addAttribute("response", new Response());
-        if (request.getRequester() != null) 
+        if (request.getRequester() != null && !request.getRequester().getUsername().equals("administrator")) 
             model.addAttribute("person", this.findPersonOrLegalEntityByUsername.execute(request.getRequester().getUsername()));
         return DEFAULT_CONTEXT + "/view";
     }

@@ -51,7 +51,7 @@
                 <div class="col-sm-12 col-lg-6 col-md-6" style="max-width: 25rem;">
                     <!-- Heading -->
                     <h1 class="fs-1 text-center mt-3">
-                        <img src="/assets/img/logos/esic_logo.png" class="img-fluid" width="50"
+                        <img th:src="${'/api/files/public/' + settings.landingPage?.headerLogo}" class="img-fluid" width="50"
                             style="vertical-align: text-top;" />
                         [[${settings.title}]]
                     </h1>

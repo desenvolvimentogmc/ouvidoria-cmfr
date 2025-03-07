@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg shadow-sm" id="navbar">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center text-decoration-none" href="/">
-            <img src="/assets/img/backgrounds/hearing_42dp_E8EAED_FILL0_wght400_GRAD0_opsz40.svg" alt="Logo e-SIC" width="32" class="me-2">
+            <img th:if="${settings.landingPage.footerLogo != '${HEADER_LOGO}'}" class="img-fluid me-2" width="32"  th:src="${'/api/files/public/' + settings.landingPage?.headerLogo}" alt="Logo">
             <span style="font-weight: 600;">[[${settings.title}]]</span>
         </a>
-        
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
                 viewBox="0 0 16 16">
@@ -21,7 +21,7 @@
                         Consultar
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="#estatisticas">
                         <i class="bi bi-graph-up me-1"></i>
@@ -36,8 +36,8 @@
                 </li>
 
                 <div class="nav-item dropdown">
-                    <a class="nav-link d-md-none d-md-block d-lg-block" href="#" role="button" data-bs-toggle="dropdown" data-bs-settings-switcher=""
-                        aria-expanded="false">
+                    <a class="nav-link d-md-none d-md-block d-lg-block" href="#" role="button" data-bs-toggle="dropdown"
+                        data-bs-settings-switcher="" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-moon-stars me-2" viewBox="0 0 16 16">
                             <path
@@ -50,7 +50,8 @@
                     <div class="dropdown-menu">
                         <!-- Color mode -->
                         <h6 class="dropdown-header">Modos de cor</h6>
-                        <a class="dropdown-item d-flex" data-bs-theme-value="light" href="#" role="button" aria-pressed="false">
+                        <a class="dropdown-item d-flex" data-bs-theme-value="light" href="#" role="button"
+                            aria-pressed="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-brightness-high me-2" viewBox="0 0 16 16">
                                 <path
@@ -67,16 +68,17 @@
                                     d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z" />
                             </svg> Escuro
                         </a>
-                        <a class="dropdown-item d-flex" data-bs-theme-value="auto" href="#" role="button" aria-pressed="false">
+                        <a class="dropdown-item d-flex" data-bs-theme-value="auto" href="#" role="button"
+                            aria-pressed="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-circle-half me-2" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16" />
                             </svg> Sistema
                         </a>
-    
+
                     </div>
                 </div>
-                
+
 
                 <li class="nav-item">
                     <a class="btn btn-sm btn-secondary rounded-4 w-100" href="/acesso">

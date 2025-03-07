@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg text-center shadow fixed-top nav-bg-white">
     <div class="container-fluid justify-content-center">
         <a class="navbar-brand" href="/inicio">
-            <img src="/assets/img/logos/esic_logo.png" alt="Logo" class="me-2 img-fluid" width="48" height="48">
+            <img th:src="${'/api/files/public/' + settings.landingPage?.headerLogo}" alt="Logo" class="me-2 img-fluid" width="48" height="48">
         </a>
         <span class="d-none d-sm-block h4 mt-3 bold">[[${settings.title}]]</span>
         <button class="navbar-toggler" style="margin-left: auto;" type="button" aria-label="Toggle sidebar"

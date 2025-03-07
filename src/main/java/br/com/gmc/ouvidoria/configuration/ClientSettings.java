@@ -26,6 +26,7 @@ public class ClientSettings {
         private String facebook;
         private String linkedin;
         private String site;
+        private String whatsapp;
     }
 
     @Getter

@@ -52,7 +52,7 @@ public class FileRestController {
     @GetMapping("/public/{imagePathOrName}")
     public ResponseEntity<Resource> getPublicFile(@PathVariable String imagePathOrName) throws IOException, MalformedURLException {
 
-        Path path = Paths.get(storagePath + "/" + imagePathOrName);
+        Path path = Paths.get(storagePath + "/assets/" + imagePathOrName);
 
         Resource resource = new UrlResource(path.toUri());
 

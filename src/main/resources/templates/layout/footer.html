@@ -2,32 +2,36 @@
     <hr />
     <div class="container text-center">
         <div class="row">
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
 
-                <img 
-                    th:if="${settings.landingPage.footerLogo != '${FOOTER_LOGO}'}" 
-                    class="img-fluid"
-                    th:src="${'/api/files/public/' + settings.landingPage?.footerLogo}" alt="" >
+                <img th:if="${settings.landingPage.footerLogo != '${FOOTER_LOGO}'}" class="img-fluid"
+                    th:src="${'/api/files/public/' + settings.landingPage?.footerLogo}" alt="" style="max-width: 100px;">
 
                 <h5>[[${settings.name}]]</h5>
 
                 <p>[[${settings.landingPage.slogan}]]</p>
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-3">
                 <h5>Acessos</h5>
                 <ul class="list-unstyled">
                     <!-- TODO Colocar itens -->
-                    <li><a th:href="${settings.media?.site}" target="_blank">Site Oficial</a></li>
-                    <li><a th:href="${settings.media?.site}" target="_blank">Portal da Transparência</a></li>
+                    <li><a th:href="${settings.media?.site}" target="_blank"><i class="bi bi-globe me-2"></i>Site
+                            Oficial</a></li>
+                    <li><a th:href="${settings.media?.facebook}" target="_blank"><i
+                                class="bi bi-facebook me-2"></i>Facebook</a></li>
+                    <li><a th:href="${settings.media?.instagram}" target="_blank"><i
+                                class="bi bi-instagram me-2"></i>Instagram</a></li>
+                    <li><a th:href="${settings.media?.whatsapp}" target="_blank"><i
+                                class="bi bi-whatsapp m-2"></i>WhatsApp</a></li>
                 </ul>
-            </div>
-            <div class="col-md-4 mb-3">
                 <h5>Contato</h5>
                 <p>[[${settings.landingPage.contact}]]</p>
                 <p>[[${settings.landingPage.phone}]]</p>
             </div>
+
         </div>
         <hr class="bg-light">
-        <p class="mb-0">&copy; [[${#dates.year(#dates.createNow())}]] Desenvolvido por [[${COMPANY}]]. Todos os direitos reservados.</p>
+        <p class="mb-0">&copy; [[${#dates.year(#dates.createNow())}]] Desenvolvido por [[${COMPANY}]]. Todos os direitos
+            reservados.</p>
     </div>
 </footer>
