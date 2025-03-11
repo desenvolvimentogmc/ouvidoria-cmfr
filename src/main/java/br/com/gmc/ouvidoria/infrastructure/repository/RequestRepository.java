@@ -55,4 +55,10 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     List<Request> findAllByStatus(Status status);
 
     Request findByProtocolAndRequester(String protocol, User requester);
+
+    @Query(value = "SELECT tbt.title, COUNT(tr.id) as count " +
+               "FROM tb_request_types tbt " +
+               "LEFT JOIN tb_requests tr ON tr.request_type_id = tbt.id " +
+               "GROUP BY tbt.title", nativeQuery = true)
+    List<Object[]> countByRequestType();
 }

@@ -35,7 +35,8 @@
                                         id="open-requests-length">([[${requests_OPEN}]])</span>
                                 </a>
                             </h5>
-                            <div class="collapse" th:classappend="${requests_OPEN > 0 ? 'show' : ''}" id="open-requests" data-status="OPEN">
+                            <div class="collapse" th:classappend="${requests_OPEN > 0 ? 'show' : ''}" id="open-requests"
+                                data-status="OPEN">
                                 <div class="card shadow mb-0">
                                     <div class="card-body" id="open-requests-body"></div>
                                 </div>
@@ -116,15 +117,15 @@
             accordions.forEach(accordion => {
                 accordion.addEventListener('show.bs.collapse', async function (event) {
                     const accordionId = event.target.id;
-                    const status = event.target.dataset.status;                  
+                    const status = event.target.dataset.status;
 
                     showLoading();
 
                     const requests = await getRequestsByStatusAndDepartment(status, '[[${department}]]');
 
-                    if(requests.length === 0) {
+                    if (requests.length === 0) {
                         closeLoading();
-                        return ;
+                        return;
                     }
 
                     createToDoList(status.toLowerCase(), requests);
@@ -138,7 +139,7 @@
             }
 
             const getRequestsByStatusAndDepartment = async (status, department) => {
-                
+
                 const response = await fetch(`/api/requests?status=${status}&department=${department}`);
 
                 if (!response.ok) {
@@ -153,12 +154,15 @@
             const createToDoList = (status, requestList) => {
                 let body = document.getElementById(`${status}-requests-body`);
 
-
                 document.getElementById(`${status}-requests-length`).innerHTML = `(${requestList.length})`;
 
+                if(requestList.length === 0) {
+                    body.innerHTML = "Não há dados"
+                    return;
+                }
+
                 let tableStructure = `
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-borderless">
+                        <table class="table table-striped table-hover table-borderless" id="tbl-${status}">
                             <thead class="text-center">
                                 <tr>
                                     <th>###</th>
@@ -170,8 +174,7 @@
                             </thead>
                             <tbody id="${status}-requests-table-body">
                             </tbody>
-                        </table>
-                    </div>`;
+                        </table>`;
 
                 // Adiciona a estrutura da tabela dentro do body
                 body.innerHTML = tableStructure;
@@ -179,14 +182,14 @@
 
                 requestList.forEach(request => {
                     let newRow = `
-                        <tr role="button" onclick="window.location.href='/solicitacoes/${request.id}'">
+                        <tr role="button">
                             <td>${request.id}</td>
                             <td>
                                 <a href="/solicitacoes/${request.id}" 
                                     role="button" data-bs-toggle="tooltip" 
                                     data-bs-html="true"
                                     data-bs-placement="right" 
-                                    data-bs-title="${request.description} / ${request.requestType.title}">
+                                    data-bs-title="${request.description} ${request.requestType.title}">
                                     ${request.description}
                                 </a>
                             </td>
@@ -194,7 +197,7 @@
                                 <img src="assets/img/icons/avatar-default-symbolic-svgrepo-com.svg" 
                                     width="20" class="rounded-circle me-1" 
                                     alt="Avatar">
-                                ${request.requester === null? 'Anônimo' : request.requester?.username}
+                                ${request.requester === null ? 'Anônimo' : request.requester?.username}
                             </td>
                             <td>
                                 <i class="bi bi-calendar-event me-1"></i> ${new Date(request.createdAt).toLocaleString('pt-br')}
@@ -214,6 +217,13 @@
                 });
 
                 closeLoading();
+
+                new DataTable("#tbl-" + status, {
+                    responsive: true,
+                    language: {
+                        url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+                    },
+                })
             };
 
         </script>

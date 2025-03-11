@@ -94,4 +94,8 @@ public class RequestGateway {
     public Request findByProtocolAndAnonymous(String protocol) {
         return this.repository.findByProtocolAndRequester(protocol, null);
     }
+
+    public List<Object[]> countByRequestType() {
+        return this.repository.countByRequestType();
+    }
 }
