@@ -14,7 +14,6 @@ import br.com.gmc.ouvidoria.usecase.request.CountRequestsByRequestType;
 import br.com.gmc.ouvidoria.infrastructure.dto.RequestsByStatusDTO;
 import br.com.gmc.ouvidoria.infrastructure.dto.RequestsBySubjectDTO;
 import br.com.gmc.ouvidoria.enums.Status;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
