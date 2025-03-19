@@ -59,6 +59,14 @@
                 <i class="bi bi-plus"></i>
             </a>
         </div>
+
+        <div class="fab-container" style="z-index: 9999!important" sec:authorize="hasRole('ROLE_ROOT')">
+            <a href="/funcionarios/novo-acesso" id="fab-main" class="btn btn-primary w-100 shadow"
+                data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="left"
+                data-bs-title="Cadastrar funcionário">
+                <i class="bi bi-plus"></i> Cadastrar funcionário
+            </a>
+        </div>
     </content>
 </body>
 

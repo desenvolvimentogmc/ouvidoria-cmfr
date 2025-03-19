@@ -68,6 +68,14 @@
             </a>
         </div>
 
+        <div class="fab-container" style="z-index: 9999!important" sec:authorize="hasRole('ROLE_ROOT')">
+            <a href="/tipos-de-solicitacao/novo-tipo-de-solicitacao" id="fab-main" class="btn btn-primary w-100 shadow"
+                data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="left"
+                data-bs-title="Cadastrar funcionário">
+                <i class="bi bi-plus"></i> Cadastrar novo tipo
+            </a>
+        </div>
+
         <script>
             const confirmDelete = (id) => {
                 Swal.fire({

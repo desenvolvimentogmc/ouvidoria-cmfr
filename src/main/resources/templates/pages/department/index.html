@@ -56,12 +56,11 @@
             </div>
         </div>
 
-
-        <div class="fab-container" sec:authorize="hasRole('ROLE_ROOT')">
-            <a href="/departamentos/novo-departamento" id="fab-main" class="btn btn-primary rounded-circle shadow"
+        <div class="fab-container" style="z-index: 9999!important" sec:authorize="hasRole('ROLE_ROOT')">
+            <a href="/departamentos/novo-departamento" id="fab-main" class="btn btn-primary w-100 shadow"
                 data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="left"
-                data-bs-content="Cadastrar departamento">
-                <i class="bi bi-plus"></i>
+                data-bs-title="Nova solicitação">
+                <i class="bi bi-plus"></i> Novo departamento
             </a>
         </div>
 
