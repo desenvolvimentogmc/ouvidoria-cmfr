@@ -50,7 +50,7 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="request : ${requests}">
-                                        <td class="text-body-secondary">#[[${request.id}]]</td>
+                                        <td class="text-body-secondary">[[${request.id}]]</td>
                                         <td role="button" class="nav-link" th:data-id="${request.id}"
                                             onclick="window.location.href = `/solicitacoes/${this.dataset.id}`"
                                             data-bs-toggle="tooltip" th:data-bs-title="${'Ver solicitação de n.º ' + request.id}">

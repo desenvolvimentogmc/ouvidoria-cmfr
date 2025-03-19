@@ -5,14 +5,46 @@ document.getElementById("search-input").addEventListener("keypress", function(ev
     }
 });
 
+document.getElementById("search-input").addEventListener("input", function (e) {
+
+    let input = e.target.value;
+
+    // Remove tudo que não for número
+    input = input.replace(/\D/g, "");
+
+    // Aplica a máscara para o formato 202503061012-81887
+    if (input.length <= 12) {
+        input = input.replace(
+            /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})?/,
+            "$1$2$3$4$5"
+        );
+    } else {
+        input = input.replace(
+            /(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{5})/,
+            "$1$2$3$4$5-$6"
+        );
+    }
+
+    // Limita o número de caracteres a 16 (incluindo o hífen)
+    if (input.length > 18) {
+        input = input.substring(0, 18);
+    }
+
+    // Atualiza o valor do campo de entrada com a máscara
+    e.target.value = input;
+});
+
 const handleSearch = async (protocol) => {
 
     showLoading("Verificando protocolo.", "Por favor, aguarde...");
 
-    const response = await fetch(`/api/requests?requestId=${protocol}`);
+    let param = protocol.includes('-') ? "protocol" : "requestId"
+
+    const response = await fetch(`/api/requests/search?${param}=${protocol}`);
 
     if(response.ok) {
-        window.location.href = `/solicitacoes/${protocol}`;
+        const data = await response.json();
+        window.location.href = `/solicitacoes/${data.message}`;
         return ;
     } 
 

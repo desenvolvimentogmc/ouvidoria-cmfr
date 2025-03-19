@@ -3,6 +3,7 @@ package br.com.gmc.ouvidoria.infrastructure.controller.rest;
 import br.com.gmc.ouvidoria.entity.model.Department;
 import br.com.gmc.ouvidoria.entity.model.Request;
 import br.com.gmc.ouvidoria.enums.Status;
+import br.com.gmc.ouvidoria.infrastructure.dto.DefaultResponseDTO;
 import br.com.gmc.ouvidoria.infrastructure.dto.StatusDTO;
 import br.com.gmc.ouvidoria.usecase.department.FindDepartmentById;
 import br.com.gmc.ouvidoria.usecase.request.*;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+
 
 /**
  * @author thiago-ribeiro
@@ -27,19 +29,23 @@ public class RequestRestController {
     private final UpdateRequest updateRequest;
     private final FindRequestById findRequestById;
     private final ListRequestsByStatus listRequestsByStatus;
+    private final FindAnonymousRequestByProtocol findAnonymousRequestByProtocol;
 
     public RequestRestController(
             ListRequestsByStatusAndDepartment listRequestsByStatusAndDepartment,
             ListRequests listRequests,
             FindDepartmentById findDepartmentById,
             UpdateRequest updateRequest,
-            FindRequestById findRequestById, ListRequestsByStatus listRequestsByStatus) {
+            FindRequestById findRequestById, 
+            ListRequestsByStatus listRequestsByStatus, 
+            FindAnonymousRequestByProtocol findAnonymousRequestByProtocol) {
         this.listRequestsByStatusAndDepartment = listRequestsByStatusAndDepartment;
         this.listRequests = listRequests;
         this.findDepartmentById = findDepartmentById;
         this.updateRequest = updateRequest;
         this.findRequestById = findRequestById;
         this.listRequestsByStatus = listRequestsByStatus;
+        this.findAnonymousRequestByProtocol = findAnonymousRequestByProtocol;
     }
 
     /**
@@ -80,6 +86,37 @@ public class RequestRestController {
 
         return ResponseEntity.ok(this.listRequestsByStatusAndDepartment.execute(Status.valueOf(status), dept));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> getMethodName(
+        @RequestParam(required = false) Long requestId, 
+        @RequestParam(required = false) String protocol, HttpServletRequest httpServletRequest) {
+
+        Request request = null;
+        if(requestId != null) {
+            request = this.findRequestById.execute(requestId);
+            //verifica se o usuário é dono da requisição
+            if(request == null ||
+                (httpServletRequest.isUserInRole("ROLE_COMUM") &&  !request.isRequesterOwner(httpServletRequest.getRemoteUser()))) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(new DefaultResponseDTO(String.valueOf(request.getId())));
+        }
+
+        if(protocol != null) {
+            request = this.findAnonymousRequestByProtocol.execute(protocol);
+            if(request == null ||
+                (httpServletRequest.isUserInRole("ROLE_COMUM") &&  !request.isRequesterOwner(httpServletRequest.getRemoteUser()))) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(new DefaultResponseDTO(String.valueOf(request.getId())));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+    
 
     /**
      * Atualiza status da requisição
