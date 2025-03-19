@@ -201,8 +201,7 @@
                                 </div>
 
                                 <!-- Se for Pessoa Jurídica -->
-                                <div
-                                    th:if="${person instanceof T(br.com.gmc.ouvidoria.entity.model.LegalEntity)}">
+                                <div th:if="${person instanceof T(br.com.gmc.ouvidoria.entity.model.LegalEntity)}">
                                     <div class="row mb-3">
                                         <div class="col-md-12"><strong>CNPJ:</strong> [[${person?.cnpj}]]</div>
                                         <div class="col-md-12"><strong>Inscrição:</strong> [[${person?.subscriptionId}]]
@@ -242,9 +241,9 @@
         <div class="fab-container" th:if="${request.status != T(br.com.gmc.ouvidoria.enums.Status).CLOSED}"
             sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT')">
             <a data-bs-toggle="offcanvas" href="#offcanvas-response" role="button" aria-controls="offcanvas-response"
-                id="fab-main" class="btn btn-primary rounded-circle shadow" data-bs-trigger="hover"
-                data-bs-placement="left" data-bs-content="Adicionar resposta">
-                <i class="bi bi-plus"></i>
+            id="fab-main" class="btn btn-primary w-100 shadow" data-bs-trigger="hover"
+            data-bs-placement="left" data-bs-content="Adicionar resposta">
+                <i class="bi bi-plus"></i> Adicionar resposta
             </a>
         </div>
 
