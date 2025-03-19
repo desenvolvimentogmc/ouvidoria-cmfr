@@ -15,6 +15,7 @@ import br.com.gmc.ouvidoria.usecase.requesttype.ListRequestTypes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,9 +49,11 @@ public class AnonymousRequestController {
     }
 
     @PostMapping
-    public String post(Request request, RedirectAttributes ra) {
+    public String post(Request request, 
+                    RedirectAttributes ra,
+                    @RequestParam(required = false) MultipartFile[] files) {
         try {
-            request = this.createAnonymousRequest.execute(request);
+            request = this.createAnonymousRequest.execute(request, files);
             ra.addFlashAttribute("success", "Solicitação realizada com sucesso!");
             ra.addFlashAttribute("protocol", request.getProtocol());
             ra.addFlashAttribute("message", "Por gentileza, salve seu protocolo para que seja possível acompanhar a sua solicitação.");
