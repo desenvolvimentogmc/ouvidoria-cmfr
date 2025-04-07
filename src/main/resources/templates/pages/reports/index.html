@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Relatórios')}">
+
+<body>
+    <content>
+
+        <div class="row align-items-center mb-7">
+            <div class="col-auto">
+                <!-- Avatar -->
+                <div class="avatar avatar-xl rounded text-primary">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Relatórios</li>
+                    </ol>
+                </nav>
+
+                <!-- Heading -->
+                <h1 class="fs-4 mb-0">Relatórios</h1>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-month display-4"></i>
+                        <h5 class="card-title mt-2">Relatório Mensal</h5>
+                        <p class="card-text">Veja as solicitações recebidas por mês.</p>
+                        <a href="/relatorios/mensal" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-calendar3 display-4"></i>
+                        <h5 class="card-title mt-2">Relatório Anual</h5>
+                        <p class="card-text">Acompanhe o panorama das solicitações do ano.</p>
+                        <a href="/relatorios/anual" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </content>
+</body>
+
+</html>

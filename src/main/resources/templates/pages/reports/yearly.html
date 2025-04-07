@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'title')}">
+
+<body>
+    <content>
+        <div class="container mt-5">
+            <div class="row align-items-center mb-7 no-print">
+                <div class="col-auto">
+                    <!-- Avatar -->
+                    <div class="avatar avatar-xl rounded text-primary">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                </div>
+                <div class="col">
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page"><a class="text-body-secondary"
+                                    href="/relatorios">Relatórios</a></li>
+                        </ol>
+                    </nav>
+
+                    <!-- Heading -->
+                    <h1 class="fs-4 mb-0">Relatório anual</h1>
+                </div>
+            </div>
+            <canvas id="barChart"></canvas>
+        </div>
+
+
+
+        <script src="/assets/vendors/chartsjs/chart.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                fetch("/api/reports/yearly")
+                    .then(response => response.json())
+                    .then(jsonData => {
+                        var ctx = document.getElementById('barChart').getContext('2d');
+                        
+                        var labels = jsonData.map(item => item.year);
+                        var datasets = [
+                            {
+                                label: 'Abertos',
+                                data: jsonData.map(item => item.open_requests),
+                                backgroundColor: '#1b9e77'
+                            },
+                            {
+                                label: 'Em Análise',
+                                data: jsonData.map(item => item.under_analysis_requests),
+                                backgroundColor: '#d95f02'
+                            },
+                            {
+                                label: 'Respondidos',
+                                data: jsonData.map(item => item.answered_requests),
+                                backgroundColor: '#7570b3'
+                            },
+                            {
+                                label: 'Fechados',
+                                data: jsonData.map(item => item.closed_requests),
+                                backgroundColor: '#e7298a'
+                            },
+                            {
+                                label: 'Recursos',
+                                data: jsonData.map(item => item.appeal_requests),
+                                backgroundColor: '#66a61e'
+                            }
+                        ];
+    
+                        new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: datasets
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: { position: 'top' },
+                                    title: { display: true, text: 'Resumo de Chamados por Ano' }
+                                },
+                                scales: {
+                                    x: { title: { display: true, text: 'Ano' } },
+                                    y: { title: { display: true, text: 'Número de Chamados' } }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => console.error("Erro ao buscar dados:", error));
+            });
+        </script>
+    </content>
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'title')}">
+
+<body>
+    <content>
+        <style>
+            /* Estilos para impressão no formato A4 */
+            @media print {
+                body {
+                    margin: 0;
+                    padding: 0px;
+                }
+
+                .no-print {
+                    display: none;
+                }
+
+                .card {
+                    box-shadow: none;
+                }
+            }
+
+            table tr td:last-child {
+                font-weight: 900;
+                /* Cinza claro */
+            }
+
+            table tr td:first-child {
+                font-weight: 900;
+                /* Cinza claro */
+            }
+        </style>
+        <div class="row align-items-center mb-7 no-print">
+            <div class="col-auto">
+                <!-- Avatar -->
+                <div class="avatar avatar-xl rounded text-primary">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-2">
+                        <li class="breadcrumb-item"><a class="text-body-secondary" href="/inicio">Página Inicial</a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page"><a class="text-body-secondary"
+                                href="/relatorios">Relatórios</a></li>
+                    </ol>
+                </nav>
+
+                <!-- Heading -->
+                <h1 class="fs-4 mb-0">Relatório mensal</h1>
+            </div>
+        </div>
+
+        <div class="card p-2 mb-3 no-print">
+            <div class="card-header">
+                <h5 class="mb-2 text-start">
+                    <i class="bi bi-calendar-range"></i> Período
+                </h5>
+            </div>
+
+            <div class="row mt-3">
+                <form id="filtroRelatorio">
+                    <div class="col-md-12 form-floating">
+                        <input type="number" class="form-control" id="anoSelecionado" min="2015" max="2100"
+                            th:value="${#temporals.year(#temporals.createNow())}" required>
+                        <label for="anoSelecionado">Ano</label>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-file-earmark-bar-graph"></i> Gerar Relatório
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+        <!-- Tabela de Dados -->
+        <div class="card table-responsive p-4 mb-4">
+            <div class="card-header">
+                <h5 class="mb-2 text-start">
+                    <i class="bi bi-clipboard-data"></i> Dados consolidados
+                </h5>
+            </div>
+            <table class="table table-hover table-striped table-bordered-less mt-3" style="border-top: none;" id="tbl-report">
+                <thead>
+                    <tr>
+                        <th>Mês/Ano</th>
+                        <th>Abertas</th>
+                        <th>Em análise</th>
+                        <th>Respondidas</th>
+                        <th>Em recurso</th>
+                        <th>Finalizadas</th>
+                        <th>Total de Solicitações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaRelatorio">
+                    <!-- Dados preenchidos via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            document.getElementById('filtroRelatorio').addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                const year = document.getElementById('anoSelecionado').value;
+
+                const response = await fetch(`/api/reports/monthly?year=${year}`);
+
+                if (response.ok) {
+                    const result = await response.json();
+                    let tabela = document.getElementById('tabelaRelatorio');
+                    tabela.innerHTML = "";
+                    result.forEach(d => {
+                        tabela.innerHTML += `<tr>
+                        <td>${monthYearFormatter(d.month)}</td>
+                        <td>${d.open_requests}</td>
+                        <td>${d.under_analysis_requests}</td>
+                        <td>${d.answered_requests}</td>
+                        <td>${d.appeal_requests}</td>
+                        <td>${d.closed_requests}</td>
+                        <td>${d.total_requests}</td>
+                    </tr>`;
+                    });
+
+                    new DataTable('#tbl-report', {
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json"
+                        },
+                        responsive: true,
+                        layout: {
+                            topStart: {
+                                buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                            }
+                        }
+                    });
+                }
+
+            });
+
+            function monthYearFormatter(date) {
+                let value = date.split("-");
+
+                return getMonthName(value[1]) + `/${value[0]}`;
+            }
+
+            function getMonthName(month) {
+                let months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+                return months[parseInt(month) - 1]
+            }
+
+        </script>
+    </content>
+</body>
+
+</html>

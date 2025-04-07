@@ -36,7 +36,7 @@
                     <search-protocol th:replace="~{layout/search-protocol}"></search-protocol>
 
                     <!-- Table -->
-                    <div class="card shadow p-2">
+                    <div class="card p-2">
                         <div class="table-responsive mb-7">
                             <table class="table table-hover table-bordered mb-0" id="tbl-requests">
                                 <thead>
@@ -51,14 +51,16 @@
                                 <tbody>
                                     <tr th:each="request : ${requests}">
                                         <td class="text-body-secondary">[[${request.id}]]</td>
-                                        <td role="button" class="nav-link" th:data-id="${request.id}"
+                                        <td role="button" th:data-id="${request.id}"
                                             onclick="window.location.href = `/solicitacoes/${this.dataset.id}`"
-                                            data-bs-toggle="tooltip" th:data-bs-title="${'Ver solicitação de n.º ' + request.id}">
-                                            [[${request.requestType?.title}]]</td>
+                                            data-bs-toggle="tooltip"
+                                            th:data-bs-title="${'Ver solicitação de n.º ' + request.id}">
+                                           <span style="text-decoration: underline;">[[${request.requestType?.title}]]</span>
+                                        </td>
                                         <td>[[${request.description}]]</td>
                                         <td>[[${#temporals.format(request.createdAt, 'dd/MM/yyyy HH:mm')}]]</td>
-                                        <td><span
-                                                class="badge bg-success-subtle text-success">[[${request?.status?.description}]]</span>
+                                        <td>
+                                            <span class="badge bg-success-subtle text-success">[[${request?.status?.description}]]</span>
                                         </td>
                                     </tr>
                                 </tbody>

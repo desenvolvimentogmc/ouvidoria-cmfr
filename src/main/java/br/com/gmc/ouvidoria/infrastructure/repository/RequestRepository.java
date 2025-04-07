@@ -1,6 +1,8 @@
 package br.com.gmc.ouvidoria.infrastructure.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import br.com.gmc.ouvidoria.entity.model.Department;
 import br.com.gmc.ouvidoria.enums.Status;
@@ -61,4 +63,42 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
                "LEFT JOIN tb_requests tr ON tr.request_type_id = tbt.id " +
                "GROUP BY tbt.title", nativeQuery = true)
     List<Object[]> countByRequestType();
+
+    @Query(value = "SELECT " +
+            "DATE_FORMAT(created_at, '%Y-%m') AS month, " +
+            "COUNT(CASE WHEN status = 'OPEN' THEN 1 ELSE NULL END) AS open_requests, " +
+            "COUNT(CASE WHEN status = 'UNDER_ANALYSIS' THEN 1 ELSE NULL END) AS under_analysis_requests, " +
+            "COUNT(CASE WHEN status = 'ANSWERED' THEN 1 ELSE NULL END) AS answered_requests, " +
+            "COUNT(CASE WHEN status = 'CLOSED' THEN 1 ELSE NULL END) AS closed_requests, " +
+            "COUNT(CASE WHEN status = 'APPEAL' THEN 1 ELSE NULL END) AS appeal_requests, " +
+            "COUNT(id) AS total_requests " +
+            "FROM tb_requests " +
+            "WHERE created_at BETWEEN :startDate AND :endDate " +
+            "GROUP BY month " +
+            "ORDER BY month", nativeQuery = true)
+    List<Map<String, Object>> findRequestsByMonthAndStatus(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
+
+    @Query(value = """
+            SELECT
+			    YEAR(created_at) AS year,
+			    COUNT(CASE WHEN status = 'OPEN' THEN 1 ELSE NULL END) AS open_requests,
+			    COUNT(CASE WHEN status = 'UNDER_ANALYSIS' THEN 1 ELSE NULL END) AS under_analysis_requests,
+			    COUNT(CASE WHEN status = 'ANSWERED' THEN 1 ELSE NULL END) AS answered_requests,
+			    COUNT(CASE WHEN status = 'CLOSED' THEN 1 ELSE NULL END) AS closed_requests,
+			    COUNT(CASE WHEN status = 'APPEAL' THEN 1 ELSE NULL END) AS appeal_requests,
+			    COUNT(id) AS total_requests
+			FROM
+			    tb_requests
+			WHERE
+			    created_at >= DATE_FORMAT(NOW() - INTERVAL 3 YEAR, '%Y-01-01')
+			    AND created_at < DATE_FORMAT(NOW() + INTERVAL 1 YEAR, '%Y-01-01')
+			GROUP BY
+			    year
+			ORDER BY
+			    year;	
+        """, nativeQuery = true)
+	List<Map<String, Object>> findYearlyReportRequests();
 }

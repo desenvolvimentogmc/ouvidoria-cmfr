@@ -42,6 +42,12 @@
             </a>
         </div>
 
+        <div class="nav-item">
+            <a class="nav-link" href="/relatorios" sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_ROOT')">
+                <i class="bi bi-graph-up me-1"></i> Relatórios
+            </a>
+        </div>
+
         <hr />
     </ul>
     <ul class="nav flex-column">

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html 
-    lang="pt-br" 
-    th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Departamentos')}">
+<html lang="pt-br" th:replace="~{layout/dashboard/principal :: layout (~{:: content}, 'Departamentos')}">
+
 <body>
     <content>
 
@@ -29,7 +28,7 @@
 
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="card shadow p-3">
+                    <div class="card p-3">
                         <table id="tbl-departments" class="table table-hover table-borderless">
                             <thead>
                                 <tr>
@@ -43,8 +42,10 @@
                             <tbody>
                                 <tr th:each="department : ${departments}">
                                     <td>[[${department.id}]]</td>
-                                    <td class="nav-link" role="button" th:data-id="${department.id}"
-                                    onclick="window.location.href = `/departamentos/${this.dataset.id}`">[[${department.name}]]</td>
+                                    <td role="button" th:data-id="${department.id}"
+                                        onclick="window.location.href = `/departamentos/${this.dataset.id}`">
+                                        <span style="text-decoration: underline;">[[${department.name}]]</span>
+                                    </td>
                                     <td>[[${department.email}]]</td>
                                     <td>[[${department.phone}]]</td>
                                     <td>[[${department?.observation}]]</td>

@@ -423,3 +423,27 @@ tr>th {
   font-size: 20px;
   color: #000;
 }
+
+/* Tela de loading */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* fundo semitransparente */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.4s ease;
+  pointer-events: all; /* bloqueia interações no fundo */
+}
+
+/* Efeito de fade-out ao carregar */
+#loading-screen.fade {
+  opacity: 0;
+  pointer-events: none; /* permite interações depois que some */
+}

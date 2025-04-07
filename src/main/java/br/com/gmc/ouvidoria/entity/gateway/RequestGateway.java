@@ -1,6 +1,8 @@
 package br.com.gmc.ouvidoria.entity.gateway;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import br.com.gmc.ouvidoria.entity.model.Department;
 import br.com.gmc.ouvidoria.enums.Status;
@@ -98,4 +100,12 @@ public class RequestGateway {
     public List<Object[]> countByRequestType() {
         return this.repository.countByRequestType();
     }
+
+	public List<Map<String, Object>> findMonthlyReportByYear(LocalDateTime startDate, LocalDateTime endDate) {
+		return this.repository.findRequestsByMonthAndStatus(startDate, endDate);
+	}
+
+	public List<Map<String, Object>> findYearlyReport() {
+		return this.repository.findYearlyReportRequests();
+	}
 }
