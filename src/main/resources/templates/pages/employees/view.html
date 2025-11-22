@@ -79,7 +79,7 @@
                     <hr class="mt-4 mb-4">
 
                     <!-- Botão de envio -->
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end" th:if="${employee.user != null}">
                         <button th:if="${employee.user?.enabled}" type="button"
                             th:data-username="${employee.user?.username}"
                             onclick="activeInactiveEmployee(this.dataset.username, 'inactive')"
