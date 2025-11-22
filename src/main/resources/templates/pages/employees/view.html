@@ -80,7 +80,7 @@
 
                     <!-- Botão de envio -->
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button th:if="${employee.user.enabled}" type="button"
+                        <button th:if="${employee.user?.enabled}" type="button"
                             th:data-username="${employee.user?.username}"
                             onclick="activeInactiveEmployee(this.dataset.username, 'inactive')"
                             class="btn btn-outline-danger px-4">Desativar funcionário</button>
