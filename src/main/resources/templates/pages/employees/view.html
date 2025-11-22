@@ -25,7 +25,7 @@
 
                     <!-- Heading -->
                     <h1 class="fs-4 mb-0">[[${employee.name}]]</h1>
-                    <p class="text-secondary p-2"><i class="bi bi-person-circle"></i> [[${employee.user.username}]]</p>
+                    <p class="text-secondary p-2"><i class="bi bi-person-circle"></i> [[${employee.user?.username}]]</p>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                     <!-- Botão de envio -->
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button th:if="${employee.user.enabled}" type="button"
-                            th:data-username="${employee.user.username}"
+                            th:data-username="${employee.user?.username}"
                             onclick="activeInactiveEmployee(this.dataset.username, 'inactive')"
                             class="btn btn-outline-danger px-4">Desativar funcionário</button>
                         <button th:if="${employee.user.enabled == false}" type="button"
