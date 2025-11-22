@@ -1,5 +1,5 @@
 # Fase de build - Maven
-FROM maven:eclipse-temurin AS build
+FROM maven:eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copiar os arquivos do projeto (já clonados)
