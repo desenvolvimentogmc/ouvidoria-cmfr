@@ -43,7 +43,7 @@
                             <tr th:each="employee : ${employeeList}" role="button" th:data-id="${employee.id}" onclick="window.location.href = `/funcionarios/${this.dataset.id}`">
                                 <td>[[${employee.id}]]</td>
                                 <td>[[${employee.name}]]</td>
-                                <td>[[${employee.user.username}]]</td>
+                                <td>[[${employee.user?.username}]]</td>
                                 <td>[[${employee?.department?.name}]]</td>
                             </tr>
                         </tbody>
