@@ -9,7 +9,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Fase final - Imagem com o Java
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:17-jdk
 VOLUME /tmp
 
 # Copiar o arquivo JAR gerado na fase de build
